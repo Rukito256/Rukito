@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>BŪSHU! 〜パーツを繋げる漢字バトル〜 (90枚デッキ版)</title>
 <style>
   * {
@@ -1470,11 +1470,12 @@ const unlockAndPlayAudio = () => {
 window.addEventListener('click', unlockAndPlayAudio, { once: true });
 window.addEventListener('touchstart', unlockAndPlayAudio, { once: true });
 
+// 相対パス指定に変更
 const AVATAR_DATA = {
-  player: 'photo/player.png',
-  cpu1:   'photo/CPU1.png',
-  cpu2:   'photo/CPU2.png',
-  cpu3:   'photo/CPU3.png'
+  player: './photo/player.png',
+  cpu1:   './photo/CPU1.png',
+  cpu2:   './photo/CPU2.png',
+  cpu3:   './photo/CPU3.png'
 };
 
 /* 画像エラー時のフォールバック処理 */
@@ -1649,15 +1650,27 @@ function submitInitialPlayerName(event) {
 const FOUR_COLORS = ['color-green', 'color-blue', 'color-red', 'color-yellow'];
 let BUSHU_COLOR_MAP = {};
 
-/* 各4色に部首を完全均等(各2つの部首)で割り当てるバランス調整アルゴリズム */
+/* 部首・色割り当て処理 */
 function randomizeBushuColors() {
-  const bushuKeys = ['氵', '扌', '木', '禾', '亻', '言', '宀', '竹'];
-  const shuffledBushu = [...bushuKeys].sort(() => Math.random() - 0.5);
+  const largeGroups = ['氵', '亻', '木'].sort(() => Math.random() - 0.5);
+  const midGroups   = ['言', '扌'].sort(() => Math.random() - 0.5);
+  const smallGroups = ['禾', '宀', '竹'].sort(() => Math.random() - 0.5);
+
+  const bushuPairs = [
+    [largeGroups[0], smallGroups[0]], 
+    [largeGroups[1], smallGroups[1]], 
+    [largeGroups[2], smallGroups[2]], 
+    [midGroups[0], midGroups[1]]       
+  ];
+
+  const colorsShuffled = [...FOUR_COLORS].sort(() => Math.random() - 0.5);
   BUSHU_COLOR_MAP = {};
-  
-  shuffledBushu.forEach((b, idx) => {
-    const colorIdx = Math.floor(idx / 2);
-    BUSHU_COLOR_MAP[b] = FOUR_COLORS[colorIdx];
+
+  bushuPairs.forEach((pair, idx) => {
+    const assignedColor = colorsShuffled[idx];
+    pair.forEach(b => {
+      BUSHU_COLOR_MAP[b] = assignedColor;
+    });
   });
 }
 
@@ -1709,7 +1722,6 @@ let bushuDeclared = [false, false, false, false];
 let pendingDrawCount = 0;
 let cpuTimerId = null;
 
-/* ワイルドカード選択中の完全ロックフラグ */
 let isWildSelecting = false;
 
 let cpuSpeedMs = 1800;
@@ -2365,7 +2377,6 @@ function checkAndAutoProcessPlayerDraw() {
   }
 }
 
-/* プレイヤーが山札から引く処理 */
 function drawFromDeckPlayer() {
   if (turn !== 0 || isGameOver || isWildSelecting) return;
   
@@ -2595,7 +2606,6 @@ function showResultModal(rankingList, isTimeUp = false) {
   speechSubEl.innerText = isPlayerWinner ? "やったね！" : "お疲れ様！";
   speechMainEl.innerText = `1位だよ！`;
 
-  // 勝者のアバターアイコン描画（画像エラー時も確実にフォールバック文字を表示）
   const winnerAvatarKey = PLAYER_AVATAR_KEYS[winnerIdx];
   const winnerName = PLAYER_NAMES[winnerIdx];
   const fallbackChar = isPlayerWinner ? '👤' : `🤖${winnerIdx}`;
