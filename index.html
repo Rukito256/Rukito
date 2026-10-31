@@ -201,7 +201,18 @@
     background: linear-gradient(135deg, #0284c7 0%, #00d8ff 100%);
   }
 
-  .char-avatar-img { width: 100% !important; height: 100% !important; object-fit: cover !important; pointer-events: none; position: static !important; transform: none !important; }
+  .char-avatar-img { 
+    width: 100% !important; 
+    height: 100% !important; 
+    object-fit: cover !important; 
+    pointer-events: none; 
+    position: absolute !important; 
+    top: 0 !important;
+    left: 0 !important;
+    transform: none !important; 
+    margin: 0 !important;
+    border-radius: 50% !important;
+  }
   .avatar-fallback-text { font-size: 14px; font-weight: 900; color: #fff; text-align: center; width: 100%; }
 
   .cpu1-theme .cpu-badge { background: linear-gradient(90deg, #dc2626 0%, #ef4444 100%); border-color: #fca5a5; box-shadow: 0 0 12px #ef4444; }
