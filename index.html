@@ -190,7 +190,7 @@
     font-size: 11px; font-weight: 900; color: #fff; border: 2px solid #fff; box-shadow: 0 0 10px rgba(255,255,255,0.8); z-index: 2;
   }
   
-  /* 【修正点】アバターの親枠の設定 */
+  /* アバターの親枠の設定 */
   .avatar-container, .player-avatar-circle, .char-comment-avatar, .how-to-banner-avatar, .res-avatar-wrapper, .res-winner-avatar-circle {
     position: relative !important;
     overflow: hidden !important;
@@ -209,7 +209,7 @@
     background: linear-gradient(135deg, #0284c7 0%, #00d8ff 100%);
   }
 
-  /* 【修正点】アバター画像自体のサイズ・位置ずれ防止完全対策 */
+  /* アバター画像自体のサイズ・位置ずれ防止対策 */
   .char-avatar-img { 
     display: block !important;
     width: 100% !important; 
@@ -225,9 +225,10 @@
     margin: 0 !important;
     padding: 0 !important;
     border-radius: 50% !important;
+    z-index: 2 !important;
   }
 
-  .avatar-fallback-text { font-size: 14px; font-weight: 900; color: #fff; text-align: center; width: 100%; position: relative; z-index: 2; }
+  .avatar-fallback-text { font-size: 14px; font-weight: 900; color: #fff; text-align: center; width: 100%; position: relative; z-index: 1; }
 
   .cpu1-theme .cpu-badge { background: linear-gradient(90deg, #dc2626 0%, #ef4444 100%); border-color: #fca5a5; box-shadow: 0 0 12px #ef4444; }
   .cpu2-theme .cpu-badge { background: linear-gradient(90deg, #1d4ed8 0%, #3b82f6 100%); border-color: #93c5fd; box-shadow: 0 0 12px #3b82f6; }
@@ -1523,6 +1524,11 @@ function setupCharacterAvatars() {
     const el = document.getElementById(id);
     if (el) {
       el.style.display = 'block';
+      // 画像が正常に読み込まれたら、予備の表示文字（👤や🤖等）を削除する
+      el.onload = function() {
+        const fallback = this.parentElement.querySelector('.avatar-fallback-text');
+        if (fallback) fallback.remove();
+      };
       el.src = src;
     }
   };
