@@ -978,7 +978,7 @@ position: absolute;
  <div class="card-group group-right">
  <div class="parts-stack">
  <div class="home-card color-red"><span class="top-tag">阝</span><span class="center-kanji">阝</span><span class="bottom-tag">Kozato</span></div>
- <div class="home-card color-blue" style="margin-top:-18px;"><span class="top-tag">逆</span><span class="center-kanji">逆</span><span class="bottom-tag">Gyak</span></div>
+ <div class="home-card color-blue" style="margin-top:-18px;"><span class="top-tag">反</span><span class="center-kanji">反</span><span class="bottom-tag">Tan</span></div>
  </div>
  <div class="arrow-icon">➔</div>
  <div class="home-card color-red" style="margin-top:20px;"><span class="top-tag">阪</span><span class="center-kanji">阪</span><span class="bottom-tag">Saka</span></div>
@@ -2414,10 +2414,10 @@ function checkAndAutoProcessPlayerDraw() {
 function drawFromDeckPlayer() {
  if (turn !== 0 || isGameOver || isWildSelecting) return;
  
-if (pendingDrawCount > 0) {
+ if (pendingDrawCount > 0) {
  const hitAmount = pendingDrawCount;
  drawCardsSmart(0, hitAmount); 
-pendingDrawCount = 0;
+ pendingDrawCount = 0;
  triggerDrawHitBanner(0, hitAmount, () => {
  advanceTurn(); renderUI(); updateTurnDisplay();
  if (turn !== 0 && !isGameOver) scheduleCpuTurn();
@@ -2425,7 +2425,7 @@ pendingDrawCount = 0;
  return;
  } 
 
-drawCardsSmart(0, 1);
+ drawCardsSmart(0, 1);
  selectedIndices = [];
 
  const canPlay = checkPlayerHasAnyValidCombo();
@@ -2433,9 +2433,10 @@ drawCardsSmart(0, 1);
  if (canPlay) {
  renderUI();
  } else {
+ // 出せるものがない場合は、提示メッセージを出して自動で次のプレイヤーへ移行
  renderUI();
  const banner = document.getElementById('penalty-error-banner');
- banner.innerText = '出せるカードがありません';
+ banner.innerText = '出せるカードがありません。次の人の番になります';
  banner.classList.remove('hidden');
 
  setTimeout(() => {
@@ -2453,7 +2454,7 @@ function checkPlayerHasAnyValidCombo() {
  const hand = players[0];
  if (!hand || hand.length === 0) return false;
  
-if (hand.some(c => c.type === 'SPECIAL')) return true;
+ if (hand.some(c => c.type === 'SPECIAL')) return true;
 
  const topBushuKey = wildSpecifiedBushu || (topCard ? topCard.bushu : '氵');
  const topColorClass = (topCard && topCard.type === 'SPECIAL') ? 'color-special' : getBushuColorClass(topBushuKey);
@@ -2486,6 +2487,7 @@ function executeCpuTurn() {
  if (isGameOver || isWildSelecting || turn === 0) return;
 
  const prevTurnIdx = (turn - direction + 4) % 4;
+ // 直前のプレイヤーが手札2枚以下なのにBUSHU宣言をしていない場合のみペナルティ注意を入れる
  if (players[prevTurnIdx].length <= 2 && !bushuDeclared[prevTurnIdx]) {
  const noticeSpeaker = turn;
  triggerCpuNotice(noticeSpeaker, `${PLAYER_NAMES[prevTurnIdx]}！ BŪSHU! を言い忘れたな！ ペナルティ1枚！`, () => {
@@ -2517,6 +2519,7 @@ function continueCpuTurnExecution() {
  const counterDrawIdx = hand.findIndex(c => c.type === 'SPECIAL' && (c.effect === 'DRAW2' || c.effect === 'DRAW4'));
  if (counterDrawIdx > -1) {
  const played = hand.splice(counterDrawIdx, 1);
+ // 手札2枚以下の時のみBŪSHU宣言
  if (hand.length <= 2 && !bushuDeclared[cpuIdx] && Math.random() < 0.85) {
  triggerCpuPressBushuButton(cpuIdx);
  }
@@ -2525,10 +2528,10 @@ function continueCpuTurnExecution() {
  return;
  } else {
  const hitAmount = pendingDrawCount; 
-drawCardsSmart(cpuIdx, hitAmount); 
-pendingDrawCount = 0;
+ drawCardsSmart(cpuIdx, hitAmount); 
+ pendingDrawCount = 0;
  triggerDrawHitBanner(cpuIdx, hitAmount, () => { checkWinOrNextTurn(); }); 
-return;
+ return;
  }
  }
 
@@ -2549,9 +2552,15 @@ return;
  const hasCommon = activeParts.length === 0 || match2.parts.some(p => activeParts.includes(p));
  const isSameBushu = (matchedBushuKey === topBushuKey) || (matchedColor === topColorClass);
  
-if (hasCommon || isSameBushu) {
- const played = [hand[j], hand[i]];
- hand.splice(j, 1); hand.splice(i, 1);
+ if (hasCommon || isSameBushu) {
+ const played = [hand[i], hand[j]];
+ // 手札から確実に2枚を消費する
+ const idx1 = hand.indexOf(played[0]);
+ if (idx1 > -1) hand.splice(idx1, 1);
+ const idx2 = hand.indexOf(played[1]);
+ if (idx2 > -1) hand.splice(idx2, 1);
+
+ // 手札2枚以下の時のみBŪSHU宣言
  if (hand.length <= 2 && !bushuDeclared[cpuIdx] && Math.random() < 0.85) {
  triggerCpuPressBushuButton(cpuIdx);
  }
@@ -2589,8 +2598,12 @@ if (hasCommon || isSameBushu) {
  const hasCommon = activeParts.length === 0 || match2.parts.some(p => activeParts.includes(p));
  const isSameBushu = (matchedBushuKey === topBushuKey) || (matchedColor === topColorClass);
  if (hasCommon || isSameBushu) {
- const played = [hand[j], hand[i]];
- hand.splice(j, 1); hand.splice(i, 1);
+ const played = [hand[i], hand[j]];
+ const idx1 = hand.indexOf(played[0]);
+ if (idx1 > -1) hand.splice(idx1, 1);
+ const idx2 = hand.indexOf(played[1]);
+ if (idx2 > -1) hand.splice(idx2, 1);
+
  if (hand.length <= 2 && !bushuDeclared[cpuIdx] && Math.random() < 0.85) {
  triggerCpuPressBushuButton(cpuIdx);
  }
