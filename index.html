@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>BŪSHU! 〜パーツを繋げる漢字バトル〜 (最適化バランス版)</title>
+<title>BŪSHU! 〜パーツを繋げる漢字バトル〜 (手札循環・最適化版)</title>
 <style>
  * {
  box-sizing: border-box;
@@ -1773,7 +1773,6 @@ function selectZukanKanjiDetail(item) {
  document.getElementById('detail-combine-flow').innerHTML = flowHtml;
 }
 
-/* 🎯 デッキ最適化：特殊カード比率を抑え（全128枚中18枚＝約14%）、パーツカードを中心に構成 */
 function generateOptimized90Deck() {
  let cardPool = [];
 
@@ -1797,7 +1796,6 @@ function generateOptimized90Deck() {
  }
  });
 
- // 特殊カードは全体で18枚に調整（高頻度発生を防止）
  const specialList = [
  { type: 'DRAW2', val: '引', count: 4 },
  { type: 'DRAW4', val: '倍', count: 3 },
@@ -2233,7 +2231,6 @@ function triggerDrawHitBanner(playerIdx, drawAmount, callback) {
 function checkWinOrNextTurn() {
  if (isGameOver || isWildSelecting) return;
  
- // ✨ 勝利判定強化: 0枚になったら即勝利画面へ
  if (players[turn].length === 0) {
  isGameOver = true; 
  if (timerInterval) clearInterval(timerInterval);
@@ -2257,9 +2254,11 @@ function scheduleCpuTurn() {
 
 function advanceTurn() { turn = (turn + direction + 4) % 4; }
 
-/* 🎯 強化版スマートドロー: 手札のパーツとペアを作れるカードを高確率で山札から優先抽選 */
+/* 🎯 強化版スマートドロー: 手札内のペアだけでなく「場に出せるカード」も山札から超優先抽選 */
 function drawCardsSmart(playerIdx, count) {
  const hand = players[playerIdx];
+ const topBushuKey = wildSpecifiedBushu || (topCard ? topCard.bushu : '氵');
+ const topColorClass = (topCard && topCard.type === 'SPECIAL') ? 'color-special' : getBushuColorClass(topBushuKey);
 
  for (let c = 0; c < count; c++) {
  if (deck.length === 0) {
@@ -2283,25 +2282,35 @@ function drawCardsSmart(playerIdx, count) {
 
  let targetCardIndex = -1;
  
- // 85%の確率で「手札のパーツと組み合わせ可能なパーツ」を優先的に探し出す
- if (Math.random() < 0.85) {
+ // 90%の確率で「手札同士または場に出せるカード」を優先ドロー
+ if (Math.random() < 0.90) {
  for (let i = 0; i < deck.length; i++) {
  const candidate = deck[i];
- if (candidate.type === 'SPECIAL') continue; // 特殊カードはスキップしてペアパーツを探す
+ if (candidate.type === 'SPECIAL') continue; // 特殊カード以外を最優先
  
- const canFormPairWithHand = hand.some(hCard => {
+ // 判定A: 手札のカードと合体して出せるペアになるか？
+ const canFormValidPairWithHand = hand.some(hCard => {
  if (hCard.type === 'SPECIAL') return false;
- return !!findMatchingKanji([hCard.value, candidate.value]);
+ const matchedKanji = findMatchingKanji([hCard.value, candidate.value]);
+ if (!matchedKanji) return false;
+
+ const bushuPartCard = [hCard, candidate].find(cardItem => cardItem.value === matchedKanji.bushu);
+ const matchedBushuKey = bushuPartCard ? bushuPartCard.bushu : matchedKanji.bushu;
+ const matchedBushuColor = getBushuColorClass(matchedBushuKey);
+
+ const isSameBushuColor = (matchedBushuKey === topBushuKey) || (matchedBushuColor === topColorClass);
+ const hasCommonPart = (activeParts.length === 0) || matchedKanji.parts.some(p => activeParts.includes(p));
+
+ return isSameBushuColor || hasCommonPart;
  });
 
- if (canFormPairWithHand) {
+ if (canFormValidPairWithHand) {
  targetCardIndex = i;
  break;
  }
  }
  }
 
- // 条件に合致するペアカードがない、または15%の確率枠の場合は山札の通常位置からドロー
  if (targetCardIndex > -1) {
  hand.push(deck.splice(targetCardIndex, 1)[0]);
  } else {
@@ -2429,11 +2438,10 @@ function continueCpuTurnExecution() {
  return;
  }
 
- // ドロー攻撃被弾時
  if (pendingDrawCount > 0) {
  const counterDrawIdx = hand.findIndex(c => c.type === 'SPECIAL' && (c.effect === 'DRAW2' || c.effect === 'DRAW4'));
  if (counterDrawIdx > -1) {
- const playedCard = hand.splice(counterDrawIdx, 1)[0]; // 確実に削除
+ const playedCard = hand.splice(counterDrawIdx, 1)[0];
 
  if (hand.length <= 2 && !bushuDeclared[cpuIdx] && Math.random() < 0.85) {
  triggerCpuPressBushuButton(cpuIdx);
@@ -2453,7 +2461,6 @@ function continueCpuTurnExecution() {
  const topBushuKey = wildSpecifiedBushu || (topCard ? topCard.bushu : '氵');
  const topColorClass = (topCard && topCard.type === 'SPECIAL') ? 'color-special' : getBushuColorClass(topBushuKey);
 
- // 1. 通常カードのペア組み合わせを最優先
  for (let i = 0; i < hand.length; i++) {
  if (hand[i].type === 'SPECIAL') continue;
  for (let j = i + 1; j < hand.length; j++) {
@@ -2486,7 +2493,6 @@ function continueCpuTurnExecution() {
  }
  }
 
- // 2. 通常ペアが出せない場合のみ特殊カードを使用
  const specialIdx = hand.findIndex(c => c.type === 'SPECIAL');
  if (specialIdx > -1) {
  const playedCard = hand.splice(specialIdx, 1)[0];
@@ -2499,7 +2505,6 @@ function continueCpuTurnExecution() {
  return;
  }
 
- // 3. 出せるカードがない場合はスマートドロー
  drawCardsSmart(cpuIdx, 1);
 
  for (let i = 0; i < hand.length; i++) {
