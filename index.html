@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>BŪSHU! 〜パーツを繋げる漢字バトル〜 (90枚デッキ版)</title>
+<title>BŪSHU! 〜パーツを繋げる漢字バトル〜 (128枚デッキ・開始時山札100枚版)</title>
 <style>
  * {
  box-sizing: border-box;
@@ -978,7 +978,7 @@ position: absolute;
  <div class="card-group group-right">
  <div class="parts-stack">
  <div class="home-card color-red"><span class="top-tag">阝</span><span class="center-kanji">阝</span><span class="bottom-tag">Kozato</span></div>
- <div class="home-card color-blue" style="margin-top:-18px;"><span class="top-tag">反</span><span class="center-kanji">反</span><span class="bottom-tag">Tan</span></div>
+ <div class="home-card color-blue" style="margin-top:-18px;"><span class="top-tag">逆</span><span class="center-kanji">逆</span><span class="bottom-tag">Gyak</span></div>
  </div>
  <div class="arrow-icon">➔</div>
  <div class="home-card color-red" style="margin-top:20px;"><span class="top-tag">阪</span><span class="center-kanji">阪</span><span class="bottom-tag">Saka</span></div>
@@ -1064,7 +1064,7 @@ position: absolute;
  <div class="right-control-group">
  <div class="deck-neon-stack" onclick="drawFromDeckPlayer()">
  <div class="deck-card-visual">★</div>
- <div class="deck-label-text"><ruby>山札<rt>やまふだ</rt></ruby> <ruby>残<rt>のこ</rt></ruby>り<span id="deck-count-num">90</span>枚</div>
+ <div class="deck-label-text"><ruby>山札<rt>やまふだ</rt></ruby> <ruby>残<rt>のこ</rt></ruby>り<span id="deck-count-num">100</span>枚</div>
  </div>
 
  <button class="btn-confirm-neon" id="btn-submit" onclick="submitSelectedCards()">
@@ -1869,18 +1869,19 @@ function selectZukanKanjiDetail(item) {
  document.getElementById('detail-combine-flow').innerHTML = flowHtml;
 }
 
+/* 総数128枚デッキ生成（配り終えた直後にちょうど山札が100枚になります） */
 function generateOptimized90Deck() {
  let cardPool = [];
 
  const bushuWeights = [
- { bushu: '氵', count: 12 },
- { bushu: '扌', count: 10 },
- { bushu: '木', count: 12 },
- { bushu: '亻', count: 12 },
- { bushu: '言', count: 10 },
- { bushu: '禾', count: 8 },
- { bushu: '宀', count: 6 },
- { bushu: '竹', count: 6 }
+ { bushu: '氵', count: 16 },
+ { bushu: '扌', count: 13 },
+ { bushu: '木', count: 16 },
+ { bushu: '亻', count: 16 },
+ { bushu: '言', count: 13 },
+ { bushu: '禾', count: 12 },
+ { bushu: '宀', count: 9 },
+ { bushu: '竹', count: 9 }
  ];
 
  bushuWeights.forEach(bInfo => {
@@ -1893,11 +1894,11 @@ function generateOptimized90Deck() {
  });
 
  const specialList = [
- { type: 'DRAW2', val: '引', count: 4 },
- { type: 'DRAW4', val: '倍', count: 2 },
- { type: 'SKIP', val: '飛', count: 3 },
- { type: 'REVERSE', val: '逆', count: 3 },
- { type: 'WILD', val: '変', count: 2 }
+ { type: 'DRAW2', val: '引', count: 6 },
+ { type: 'DRAW4', val: '倍', count: 4 },
+ { type: 'SKIP', val: '飛', count: 5 },
+ { type: 'REVERSE', val: '逆', count: 5 },
+ { type: 'WILD', val: '変', count: 4 }
  ];
 
  specialList.forEach(s => {
@@ -1945,6 +1946,9 @@ turn = 0; direction = 1;
 
  unlockKanjiInZukan(randomKanji.kanji);
  dealBalancedInitialHands();
+
+ // 開始時の山札を確実にぴったり100枚に揃える
+ if (deck.length > 100) deck = deck.slice(0, 100);
 
  fitGameToScreen();
  renderUI();
