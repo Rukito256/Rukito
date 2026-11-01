@@ -2518,12 +2518,13 @@ function continueCpuTurnExecution() {
  if (pendingDrawCount > 0) {
  const counterDrawIdx = hand.findIndex(c => c.type === 'SPECIAL' && (c.effect === 'DRAW2' || c.effect === 'DRAW4'));
  if (counterDrawIdx > -1) {
- const played = hand.splice(counterDrawIdx, 1);
- // 手札2枚以下の時のみBŪSHU宣言
+ const playedCard = hand[counterDrawIdx];
+ hand.splice(counterDrawIdx, 1); // 確実に手札から削除
+
  if (hand.length <= 2 && !bushuDeclared[cpuIdx] && Math.random() < 0.85) {
  triggerCpuPressBushuButton(cpuIdx);
  }
- processPlayedCards(played, cpuIdx);
+ processPlayedCards([playedCard], cpuIdx);
  checkWinOrNextTurn();
  return;
  } else {
@@ -2560,7 +2561,6 @@ function continueCpuTurnExecution() {
  const idx2 = hand.indexOf(played[1]);
  if (idx2 > -1) hand.splice(idx2, 1);
 
- // 手札2枚以下の時のみBŪSHU宣言
  if (hand.length <= 2 && !bushuDeclared[cpuIdx] && Math.random() < 0.85) {
  triggerCpuPressBushuButton(cpuIdx);
  }
@@ -2574,11 +2574,13 @@ function continueCpuTurnExecution() {
 
  const specialIdx = hand.findIndex(c => c.type === 'SPECIAL');
  if (specialIdx > -1) {
- const played = hand.splice(specialIdx, 1);
+ const playedCard = hand[specialIdx];
+ hand.splice(specialIdx, 1); // 確実に手札から削除
+
  if (hand.length <= 2 && !bushuDeclared[cpuIdx] && Math.random() < 0.85) {
  triggerCpuPressBushuButton(cpuIdx);
  }
- processPlayedCards(played, cpuIdx);
+ processPlayedCards([playedCard], cpuIdx);
  checkWinOrNextTurn();
  return;
  }
@@ -2617,11 +2619,13 @@ function continueCpuTurnExecution() {
 
  const postDrawSpecialIdx = hand.findIndex(c => c.type === 'SPECIAL');
  if (postDrawSpecialIdx > -1) {
- const played = hand.splice(postDrawSpecialIdx, 1);
+ const playedCard = hand[postDrawSpecialIdx];
+ hand.splice(postDrawSpecialIdx, 1); // 確実に手札から削除
+
  if (hand.length <= 2 && !bushuDeclared[cpuIdx] && Math.random() < 0.85) {
  triggerCpuPressBushuButton(cpuIdx);
  }
- processPlayedCards(played, cpuIdx);
+ processPlayedCards([playedCard], cpuIdx);
  checkWinOrNextTurn();
  return;
  }
