@@ -2,8 +2,8 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>BŪSHU! 〜パーツを繋げる漢字バトル〜 (手札循環・最適化版)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>BŪSHU! 〜パーツを繋げる漢字バトル〜 (90枚デッキ版)</title>
 <style>
  * {
  box-sizing: border-box;
@@ -24,7 +24,7 @@
  overflow: hidden;
  }
 
- /* ゲーム全体コンテナ */
+ /* ゲーム全体コンテナ（基準サイズ: 917x412） */
  #game-container {
  width: 917px;
  height: 412px;
@@ -47,7 +47,7 @@
  position: absolute;
  top: 0; left: 0; right: 0; bottom: 0;
  background: 
- radial-gradient(circle at 10% 15%, rgba(255, 68, 68, 0.25) 0%, transparent 15%),
+radial-gradient(circle at 10% 15%, rgba(255, 68, 68, 0.25) 0%, transparent 15%),
  radial-gradient(circle at 88% 18%, rgba(255, 68, 68, 0.3) 0%, transparent 18%),
  radial-gradient(circle at 95% 45%, rgba(255, 120, 0, 0.25) 0%, transparent 15%),
  radial-gradient(circle at 5% 80%, rgba(255, 68, 68, 0.2) 0%, transparent 15%),
@@ -80,9 +80,16 @@
  }
 
  .name-input-label { 
- font-size: 15px; font-weight: bold; color: #a5f3fc; display: flex; 
- align-items: center; justify-content: center; gap: 6px; 
- text-shadow: 0 0 8px rgba(56, 189, 248, 0.6); white-space: nowrap; width: 100%;
+font-size: 15px; 
+font-weight: bold; 
+color: #a5f3fc; 
+display: flex; 
+align-items: center; 
+justify-content: center;
+ gap: 6px; 
+text-shadow: 0 0 8px rgba(56, 189, 248, 0.6); 
+white-space: nowrap; 
+width: 100%;
  }
 
  .name-text-box {
@@ -139,7 +146,7 @@
  .home-card {
  width: 68px; height: 96px; border-radius: 12px; display: flex; flex-direction: column;
  justify-content: space-between; padding: 5px; box-shadow: 0 4px 15px rgba(0,0,0,0.6); 
- font-weight: bold; color: #111827; position: relative; border: 2.5px solid #ffffff;
+font-weight: bold; color: #111827; position: relative; border: 2.5px solid #ffffff;
  }
  .home-card .top-tag { font-size: 9px; background: rgba(255,255,255,0.7); padding: 1px 4px; border-radius: 4px; align-self: flex-start; font-weight: bold; }
  .home-card .center-kanji { font-size: 38px; text-align: center; font-weight: 900; font-family: 'Kozuka Mincho Pro', 'Yu Mincho', serif; margin-top: -4px; }
@@ -166,7 +173,7 @@
  /* 対戦UI トップエリア */
  .top-section { display: flex; justify-content: space-between; align-items: flex-start; width: 100%; z-index: 20; }
  
- .timer-neon-box {
+.timer-neon-box {
  background: rgba(10, 18, 50, 0.85); border: 2px solid #00d8ff; box-shadow: 0 0 14px #00d8ff, inset 0 0 10px rgba(0,216,255,0.6);
  border-radius: 24px; padding: 4px 16px; display: flex; align-items: center; gap: 8px;
  }
@@ -178,22 +185,15 @@
  .cpu-container-group { display: flex; gap: 24px; align-items: flex-start; }
  .cpu-profile-box { display: flex; flex-direction: column; align-items: center; position: relative; }
  
- .cpu-badge {
+.cpu-badge {
  display: flex; align-items: center; gap: 5px; padding: 3px 10px 3px 4px; border-radius: 20px;
  font-size: 11px; font-weight: 900; color: #fff; border: 2px solid #fff; box-shadow: 0 0 10px rgba(255,255,255,0.8); z-index: 2;
  }
  
- .avatar-container, .player-avatar-circle, .char-comment-avatar, .how-to-banner-avatar, .res-avatar-wrapper, .res-winner-avatar-circle {
- position: relative !important;
- overflow: hidden !important;
- border-radius: 50% !important;
- flex-shrink: 0;
- }
-
- .avatar-container {
- width: 36px; height: 36px; border: 2.5px solid #ffffff;
+.avatar-container {
+ width: 36px; height: 36px; border-radius: 50%; border: 2.5px solid #ffffff;
  box-shadow: 0 0 8px rgba(255,255,255,0.9); background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
- display: flex; justify-content: center; align-items: center;
+ display: flex; justify-content: center; align-items: center; position: relative; overflow: hidden !important;
  }
 
  .avatar-container.player-avatar {
@@ -201,25 +201,8 @@
  background: linear-gradient(135deg, #0284c7 0%, #00d8ff 100%);
  }
 
- .char-avatar-img { 
- display: block !important;
- width: 100% !important; 
- height: 100% !important; 
- object-fit: cover !important; 
- pointer-events: none; 
- position: absolute !important; 
- top: 0 !important;
- left: 0 !important;
- right: 0 !important;
- bottom: 0 !important;
- transform: none !important; 
- margin: 0 !important;
- padding: 0 !important;
- border-radius: 50% !important;
- z-index: 2 !important;
- }
-
- .avatar-fallback-text { font-size: 14px; font-weight: 900; color: #fff; text-align: center; width: 100%; position: relative; z-index: 1; }
+ .char-avatar-img { width: 100% !important; height: 100% !important; object-fit: cover !important; pointer-events: none; position: static !important; transform: none !important; }
+ .avatar-fallback-text { font-size: 14px; font-weight: 900; color: #fff; text-align: center; width: 100%; }
 
  .cpu1-theme .cpu-badge { background: linear-gradient(90deg, #dc2626 0%, #ef4444 100%); border-color: #fca5a5; box-shadow: 0 0 12px #ef4444; }
  .cpu2-theme .cpu-badge { background: linear-gradient(90deg, #1d4ed8 0%, #3b82f6 100%); border-color: #93c5fd; box-shadow: 0 0 12px #3b82f6; }
@@ -386,12 +369,13 @@
  border-radius: 20px; box-shadow: 0 0 15px rgba(239, 68, 68, 0.8); z-index: 150; animation: popIn 0.3s ease-out;
  }
  
- .penalty-error-banner {
+.penalty-error-banner {
  position: absolute; top: 25px; left: 50%; transform: translateX(-50%);
  background: linear-gradient(90deg, #dc2626 0%, #ef4444 100%); color: #ffffff; font-size: 14px; font-weight: 900; padding: 8px 24px; border-radius: 30px;
  border: 2px solid #ffffff; box-shadow: 0 0 25px rgba(239, 68, 68, 0.9); white-space: nowrap; z-index: 170; animation: cutinAnim 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
  }
 
+ /* 特殊エフェクト用ポップアップ演出（漢字特大表示） */
  .special-cutin-overlay {
  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
  display: flex; flex-direction: column; justify-content: center; align-items: center;
@@ -406,7 +390,7 @@
  animation: specialCenterPop 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
  }
  
- .special-cutin-content.reverse-effect-style {
+.special-cutin-content.reverse-effect-style {
  background: linear-gradient(135deg, rgba(37, 99, 235, 0.95) 0%, rgba(147, 51, 234, 0.95) 50%, rgba(236, 72, 153, 0.95) 100%);
  box-shadow: 0 0 50px rgba(59, 130, 246, 0.9), 0 0 80px rgba(168, 85, 247, 0.8);
  }
@@ -502,7 +486,7 @@
  .res-top-header { display: flex; justify-content: center; align-items: center; position: relative; z-index: 10; width: 100%; margin-top: -2px; }
  .res-logo-mini { position: absolute; left: 10px; top: 2px; font-size: 22px; font-weight: 900; color: #38bdf8; text-shadow: 0 0 8px #38bdf8, 0 0 15px #ec4899; font-family: 'Arial Rounded MT Bold', sans-serif; }
  
- .res-main-title {
+.res-main-title {
  font-size: 42px; font-weight: 900; letter-spacing: 2px;
  background: linear-gradient(180deg, #fffbeb 0%, #fde047 40%, #f59e0b 70%, #d97706 100%);
  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
@@ -520,10 +504,10 @@
  .res-speech-txt1 { font-size: 10px; color: #a5f3fc; font-weight: bold; }
  .res-speech-txt2 { font-size: 13px; color: #fde047; font-weight: 900; text-shadow: 0 0 6px #fde047; }
  
- .res-winner-avatar-circle {
+.res-winner-avatar-circle {
  width: 48px; height: 48px; border-radius: 50%; border: 2.5px solid #fbbf24;
- box-shadow: 0 0 15px #fbbf24; background: #0284c7; flex-shrink: 0;
- display: flex; justify-content: center; align-items: center;
+ box-shadow: 0 0 15px #fbbf24; overflow: hidden; background: #0284c7; flex-shrink: 0;
+ display: flex; justify-content: center; align-items: center; position: relative;
  }
 
  .res-cards-flex {
@@ -564,7 +548,7 @@
 
  .res-avatar-wrapper {
  width: 62px; height: 62px; border-radius: 50%; border: 2.5px solid #ffffff;
- box-shadow: 0 0 12px rgba(255,255,255,0.8); background: #0284c7;
+ box-shadow: 0 0 12px rgba(255,255,255,0.8); overflow: hidden; background: #0284c7;
  margin: 2px 0 6px 0; flex-shrink: 0; display: flex; justify-content: center; align-items: center;
  }
 
@@ -602,7 +586,7 @@
 
  .res-bottom-action-btns { display: flex; gap: 16px; z-index: 10; }
  
- .btn-res-replay {
+.btn-res-replay {
  background: linear-gradient(90deg, #a855f7 0%, #ec4899 100%); color: #ffffff;
  font-size: 14px; font-weight: 900; padding: 8px 28px; border-radius: 25px;
  border: 2px solid #ffffff; box-shadow: 0 0 18px rgba(236, 72, 153, 0.8); cursor: pointer;
@@ -683,7 +667,7 @@
  }
  .how-to-banner-txt { font-size: 12px; font-weight: 900; color: #a5f3fc; line-height: 1.2; text-align: left; }
  .how-to-banner-avatar {
- width: 34px; height: 34px; border: 2px solid #38bdf8; background: #0284c7; flex-shrink: 0;
+ width: 34px; height: 34px; border-radius: 50%; border: 2px solid #38bdf8; overflow: hidden; background: #0284c7; flex-shrink: 0;
  display: flex; justify-content: center; align-items: center;
  }
 
@@ -708,7 +692,12 @@
  }
 
  .card1-desc {
- font-weight: bold; color: #a5f3fc; text-align: center; font-size: 11px; white-space: nowrap; margin-bottom: 4px;
+ font-weight: bold;
+ color: #a5f3fc;
+ text-align: center;
+ font-size: 11px;
+ white-space: nowrap;
+ margin-bottom: 4px;
  }
 
  .step-flow { display: flex; justify-content: space-between; align-items: center; background: rgba(30, 41, 59, 0.85); border-radius: 10px; padding: 6px 4px; margin-bottom: 6px; }
@@ -727,12 +716,35 @@
  .demo-mini-card .demo-tag { font-size: 7px; font-weight: bold; background: rgba(255,255,255,0.85); padding: 1px 3px; border-radius: 3px; position: absolute; top: 2px; left: 2px; line-height: 1; }
 
  .char-comment-box { display: flex; align-items: center; gap: 8px; background: rgba(30, 41, 59, 0.95); border: 1.5px solid #ec4899; border-radius: 14px; padding: 6px 10px; margin-top: auto; }
- .char-comment-avatar { width: 32px; height: 32px; border: 2px solid #ec4899; flex-shrink: 0; background: #0284c7; display: flex; justify-content: center; align-items: center; }
+ .char-comment-avatar { width: 32px; height: 32px; border-radius: 50%; border: 2px solid #ec4899; overflow: hidden; flex-shrink: 0; background: #0284c7; display: flex; justify-content: center; align-items: center; }
  .char-comment-txt { font-size: 10.5px; font-weight: bold; color: #f472b6; line-height: 1.25; }
 
- .rule-list { list-style: none; display: flex; flex-direction: column; gap: 6px; padding-left: 0; text-align: left; margin: 4px 0; }
- .rule-list li { display: block; font-size: 10px; font-weight: bold; line-height: 1.4; white-space: nowrap; position: relative; padding-left: 12px; }
- .rule-list li::before { content: '●'; color: #ec4899; font-size: 7px; position: absolute; left: 0; top: 1px; }
+ .rule-list { 
+list-style: none; 
+display: flex; 
+flex-direction: column; 
+gap: 6px; 
+padding-left: 0; 
+text-align: left; 
+margin: 4px 0; 
+}
+ .rule-list li { 
+display: block; 
+font-size: 10px; 
+font-weight: bold; 
+line-height: 1.4; 
+white-space: nowrap;
+ position: relative;
+ padding-left: 12px;
+ }
+ .rule-list li::before { 
+content: '●'; 
+color: #ec4899; 
+font-size: 7px; 
+position: absolute;
+ left: 0;
+ top: 1px;
+ }
 
  .spec-grid-mini { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; margin: 4px 0; }
  .spec-item-box { display: flex; flex-direction: column; align-items: center; gap: 2px; }
@@ -780,14 +792,16 @@
  }
  .zukan-kanji-card:hover { transform: scale(1.08); z-index: 10; }
  .zukan-kanji-card.unlocked { background: linear-gradient(135deg, #fef08a 0%, #eab308 100%); border-color: #fff; }
- .zukan-kanji-card.locked { background: #334155 !important; border-color: #64748b !important; opacity: 0.6; cursor: default; }
+ /* 未発見カードも押してヒントを見られるように cursor: pointer に変更 */
+ .zukan-kanji-card.locked { background: #334155 !important; border-color: #64748b !important; opacity: 0.85; cursor: pointer; }
+ .zukan-kanji-card.locked:hover { border-color: #38bdf8 !important; opacity: 1; }
 
  .zukan-card-status-badge { position: absolute; top: 2px; left: 2px; font-size: 7px; padding: 1px 3px; border-radius: 4px; font-weight: bold; }
  .status-found { background: #22c55e; color: #fff; }
  .status-locked { background: #64748b; color: #fff; }
 
  .zukan-card-char { font-size: 26px; font-weight: 900; font-family: 'Kozuka Mincho Pro', 'Yu Mincho', serif; color: #0f172a; line-height: 1; }
- .zukan-kanji-card.locked .zukan-card-char { color: #94a3b8; }
+ .zukan-kanji-card.locked .zukan-card-char { color: #cbd5e1; }
 
  .zukan-detail-panel {
  background: rgba(15, 23, 42, 0.85); border: 2px solid #38bdf8; border-radius: 14px;
@@ -798,6 +812,8 @@
 
  .detail-card-top { display: flex; gap: 16px; align-items: center; width: 100%; }
  .detail-kanji-box { width: 80px; height: 80px; background: linear-gradient(135deg, #fef08a 0%, #f59e0b 100%); border: 3px solid #fff; border-radius: 14px; display: flex; justify-content: center; align-items: center; font-size: 46px; font-weight: 900; color: #0f172a; font-family: 'Kozuka Mincho Pro', 'Yu Mincho', serif; box-shadow: 0 0 12px rgba(245, 158, 11, 0.6); flex-shrink: 0; }
+ /* ヒント表示時の漢字ボックススタイル */
+ .detail-kanji-box.hint-box { background: linear-gradient(135deg, #3b82f6 0%, #1e3a8a 100%); color: #ffffff; box-shadow: 0 0 12px rgba(56, 189, 248, 0.6); }
 
  .detail-info-group { display: flex; flex-direction: column; gap: 6px; text-align: left; flex-grow: 1; }
  .detail-info-label { font-size: 10px; background: #0284c7; color: #fff; font-weight: bold; padding: 2px 8px; border-radius: 4px; width: fit-content; }
@@ -806,6 +822,13 @@
  .detail-combine-box { background: rgba(30, 41, 59, 0.9); border: 1.5px solid #3b82f6; border-radius: 12px; padding: 12px 10px; display: flex; flex-direction: column; gap: 8px; width: 100%; }
  .detail-combine-flow { display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 18px; font-weight: 900; color: #fbbf24; }
  .mini-part-badge { background: #0284c7; color: #fff; border: 1.5px solid #fff; border-radius: 8px; padding: 3px 10px; font-size: 16px; box-shadow: 0 2px 5px rgba(0,0,0,0.4); }
+ .mini-part-badge.hint-part { background: #475569; border-color: #94a3b8; color: #e2e8f0; }
+
+ .hint-mode-badge {
+ background: linear-gradient(90deg, #ec4899 0%, #8b5cf6 100%);
+ color: #fff; font-size: 10px; font-weight: 900; padding: 2px 8px;
+ border-radius: 10px; margin-left: auto; border: 1px solid #fff;
+ }
 
  .zukan-empty-msg { color: #94a3b8; font-size: 13px; font-weight: bold; text-align: center; margin: auto; display: flex; flex-direction: column; align-items: center; gap: 8px; }
 
@@ -940,7 +963,7 @@
  <div class="card-group group-right">
  <div class="parts-stack">
  <div class="home-card color-red"><span class="top-tag">阝</span><span class="center-kanji">阝</span><span class="bottom-tag">Kozato</span></div>
- <div class="home-card color-blue" style="margin-top:-18px;"><span class="top-tag">反</span><span class="center-kanji">反</span><span class="bottom-tag">Tan</span></div>
+ <div class="home-card color-blue" style="margin-top:-18px;"><span class="top-tag">逆</span><span class="center-kanji">逆</span><span class="bottom-tag">Gyak</span></div>
  </div>
  <div class="arrow-icon">➔</div>
  <div class="home-card color-red" style="margin-top:20px;"><span class="top-tag">阪</span><span class="center-kanji">阪</span><span class="bottom-tag">Saka</span></div>
@@ -1018,7 +1041,7 @@
  <div class="draw-hit-banner hidden" id="draw-hit-banner">💥 ドロー被弾！</div>
  <div class="wild-bushu-banner hidden" id="wild-bushu-banner">【指定部首】氵</div>
  
- <div class="top-center-card" id="top-card-element">
+<div class="top-center-card" id="top-card-element">
  <span class="kanji-main" id="top-kanji-text">清</span>
  </div>
  </div>
@@ -1026,7 +1049,7 @@
  <div class="right-control-group">
  <div class="deck-neon-stack" onclick="drawFromDeckPlayer()">
  <div class="deck-card-visual">★</div>
- <div class="deck-label-text"><ruby>山札<rt>やまふだ</rt></ruby> <ruby>残<rt>のこ</rt></ruby>り<span id="deck-count-num">100</span>枚</div>
+ <div class="deck-label-text"><ruby>山札<rt>やまふだ</rt></ruby> <ruby>残<rt>のこ</rt></ruby>り<span id="deck-count-num">90</span>枚</div>
  </div>
 
  <button class="btn-confirm-neon" id="btn-submit" onclick="submitSelectedCards()">
@@ -1076,6 +1099,7 @@
  </div>
 
  <div class="how-to-grid">
+ <!-- カード 1 -->
  <div class="how-to-card">
  <div class="how-to-card-num">1</div>
  <div class="how-to-card-title">どうやって<ruby>遊<rt>あそ</rt></ruby>ぶの？</div>
@@ -1111,6 +1135,7 @@
  </div>
  </div>
 
+ <!-- カード 2 -->
  <div class="how-to-card">
  <div class="how-to-card-num">2</div>
  <div class="how-to-card-title">カードを出してみよう！</div>
@@ -1136,6 +1161,7 @@
  </div>
  </div>
 
+ <!-- カード 3 -->
  <div class="how-to-card">
  <div class="how-to-card-num">3</div>
  <div class="how-to-card-title"><ruby>特殊<rt>とくしゅ</rt></ruby>カードと<ruby>勝<rt>か</rt></ruby>ち<ruby>方<rt>かた</rt></ruby></div>
@@ -1208,9 +1234,9 @@
  </div>
 
  <div class="zukan-detail-panel" id="zukan-detail-panel">
- <div class="detail-panel-title">⭐ <ruby>漢字<rt>かんじ</rt></ruby>のくわしい<ruby>情報<rt>じょうほう</rt></ruby></div>
+ <div class="detail-panel-title" id="detail-panel-title">⭐ <ruby>漢字<rt>かんじ</rt></ruby>のくわしい<ruby>情報<rt>じょうほう</rt></ruby></div>
  
- <div id="detail-content-area" style="display:flex; flex-direction:column; gap:12px; width:100%;">
+<div id="detail-content-area" style="display:flex; flex-direction:column; gap:12px; width:100%;">
  <div class="detail-card-top">
  <div class="detail-kanji-box" id="detail-kanji-char">清</div>
  <div class="detail-info-group">
@@ -1222,7 +1248,7 @@
  </div>
 
  <div class="detail-combine-box">
- <span class="detail-info-label" style="align-self:flex-start;">パーツの<ruby>組<rt>く</rt></ruby>み<ruby>合<rt>あ</rt></ruby>わせ</span>
+ <span class="detail-info-label" id="detail-combine-label" style="align-self:flex-start;">パーツの<ruby>組<rt>く</rt></ruby>み<ruby>合<rt>あ</rt></ruby>わせ</span>
  <div class="detail-combine-flow" id="detail-combine-flow">
  <span class="mini-part-badge">氵</span> ＋ <span class="mini-part-badge">青</span> ＝ 清
  </div>
@@ -1230,7 +1256,8 @@
  </div>
 
  <div id="detail-empty-area" class="zukan-empty-msg hidden">
- <span>見つけた<ruby>漢字<rt>かんじ</rt></ruby>を<ruby>選択<rt>せんたく</rt></ruby>すると<br>くわしい<ruby>情報<rt>じょうほう</rt></ruby>が<ruby>表示<rt>ひょうじ</rt></ruby>されます</span>
+ <span style="font-size:32px;">👈</span>
+ <span><ruby>漢字<rt>かんじ</rt></ruby>を<ruby>選択<rt>せんたく</rt></ruby>すると<br>くわしい<ruby>情報<rt>じょうほう</rt></ruby>やヒントが<ruby>表示<rt>ひょうじ</rt></ruby>されます</span>
  </div>
  </div>
  </div>
@@ -1248,7 +1275,9 @@
  <span class="res-speech-txt1" id="res-speech-sub">やったね！</span>
  <span class="res-speech-txt2" id="res-speech-main">1位だよ！</span>
  </div>
- <div class="res-winner-avatar-circle" id="res-winner-avatar-box"></div>
+ <div class="res-winner-avatar-circle" id="res-winner-avatar-box">
+ <!-- 勝者アバターが動的に生成されます -->
+ </div>
  </div>
  </div>
 
@@ -1269,7 +1298,7 @@
  </div>
  </div>
 
- <!-- ワイルド部首 Modal -->
+ <!-- ワイルド部首 Modal ( z-index 900 で他操作をブロック ) -->
  <div class="modal-overlay hidden" id="wild-modal" style="z-index: 900;">
  <div class="modal-content" style="width: 320px;">
  <h3 class="modal-title"><ruby>変更<rt>へんこう</rt></ruby>する<ruby>部首<rt>ぶしゅ</rt></ruby>を選んでください</h3>
@@ -1289,20 +1318,30 @@
 </div>
 
 <script>
+/* 画面リサイズ・全端末最適化スクリプト */
 function fitGameToScreen() {
  const container = document.getElementById('game-container');
  if (!container) return;
+
  const baseWidth = 917;
  const baseHeight = 412;
- const scaleX = window.innerWidth / baseWidth;
- const scaleY = window.innerHeight / baseHeight;
+
+ const windowWidth = window.innerWidth;
+ const windowHeight = window.innerHeight;
+
+ const scaleX = windowWidth / baseWidth;
+ const scaleY = windowHeight / baseHeight;
+ 
+// 画面に収まる限界までスケール（最大1.6倍）
  const scale = Math.min(scaleX, scaleY, 1.6);
+
  container.style.transform = `scale(${scale})`;
 }
 
 window.addEventListener('resize', fitGameToScreen);
 window.addEventListener('orientationchange', () => setTimeout(fitGameToScreen, 200));
 
+/* BGM & SE WebAudio合成システム */
 class BushuBGM {
  constructor() {
  this.audioCtx = null;
@@ -1311,6 +1350,8 @@ class BushuBGM {
  this.step = 0;
  this.volume = 0.7;
  this.seVolume = 0.7;
+
+ this.scale = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25, 587.33, 659.25, 783.99];
  this.melodyPattern = [
  523.25, null, 587.33, 659.25, null, 523.25, 440.00, 392.00,
  523.25, null, 659.25, 783.99, null, 659.25, 587.33, null,
@@ -1333,6 +1374,7 @@ class BushuBGM {
  this.init();
  if (this.audioCtx.state === 'suspended') this.audioCtx.resume();
  if (this.seVolume <= 0) return;
+
  const t = this.audioCtx.currentTime;
  const notes = [523.25, 659.25, 783.99, 1046.50];
  notes.forEach((freq, idx) => {
@@ -1343,8 +1385,10 @@ class BushuBGM {
  gain.gain.setValueAtTime(0, t + idx * 0.05);
  gain.gain.linearRampToValueAtTime(0.3 * this.seVolume, t + idx * 0.05 + 0.02);
  gain.gain.exponentialRampToValueAtTime(0.001, t + idx * 0.05 + 0.35);
- osc.connect(gain); gain.connect(this.audioCtx.destination);
- osc.start(t + idx * 0.05); osc.stop(t + idx * 0.05 + 0.35);
+ osc.connect(gain);
+ gain.connect(this.audioCtx.destination);
+ osc.start(t + idx * 0.05);
+ osc.stop(t + idx * 0.05 + 0.35);
  });
  }
 
@@ -1352,16 +1396,23 @@ class BushuBGM {
  this.init();
  if (this.audioCtx.state === 'suspended') this.audioCtx.resume();
  if (this.seVolume <= 0) return;
+
  const t = this.audioCtx.currentTime;
  const osc = this.audioCtx.createOscillator();
  const gain = this.audioCtx.createGain();
+
  osc.type = 'sawtooth';
  osc.frequency.setValueAtTime(300, t);
  osc.frequency.exponentialRampToValueAtTime(1200, t + 0.25);
+
  gain.gain.setValueAtTime(0.35 * this.seVolume, t);
  gain.gain.exponentialRampToValueAtTime(0.001, t + 0.3);
- osc.connect(gain); gain.connect(this.audioCtx.destination);
- osc.start(t); osc.stop(t + 0.3);
+
+ osc.connect(gain);
+ gain.connect(this.audioCtx.destination);
+
+ osc.start(t);
+ osc.stop(t + 0.3);
  }
 
  play() {
@@ -1383,16 +1434,21 @@ class BushuBGM {
  nextStep() {
  if (!this.isPlaying || this.volume <= 0) return;
  const t = this.audioCtx.currentTime;
+
  if (this.step % 2 === 0) {
  const osc = this.audioCtx.createOscillator();
  const gain = this.audioCtx.createGain();
  osc.type = 'triangle';
- osc.frequency.setValueAtTime(this.bassPattern[Math.floor(this.step / 4) % this.bassPattern.length], t);
+ const bassNote = this.bassPattern[Math.floor(this.step / 4) % this.bassPattern.length];
+ osc.frequency.setValueAtTime(bassNote, t);
  gain.gain.setValueAtTime(0.18 * this.volume, t);
  gain.gain.exponentialRampToValueAtTime(0.001, t + 0.12);
- osc.connect(gain); gain.connect(this.audioCtx.destination);
- osc.start(t); osc.stop(t + 0.12);
+ osc.connect(gain);
+ gain.connect(this.audioCtx.destination);
+ osc.start(t);
+ osc.stop(t + 0.12);
  }
+
  const note = this.melodyPattern[this.step % 32];
  if (note) {
  const osc = this.audioCtx.createOscillator();
@@ -1401,9 +1457,12 @@ class BushuBGM {
  osc.frequency.setValueAtTime(note, t);
  gain.gain.setValueAtTime(0.15 * this.volume, t);
  gain.gain.exponentialRampToValueAtTime(0.001, t + 0.18);
- osc.connect(gain); gain.connect(this.audioCtx.destination);
- osc.start(t); osc.stop(t + 0.18);
+ osc.connect(gain);
+ gain.connect(this.audioCtx.destination);
+ osc.start(t);
+ osc.stop(t + 0.18);
  }
+
  this.step = (this.step + 1) % 32;
  }
 }
@@ -1423,12 +1482,13 @@ window.addEventListener('click', unlockAndPlayAudio, { once: true });
 window.addEventListener('touchstart', unlockAndPlayAudio, { once: true });
 
 const AVATAR_DATA = {
- player: './images/player.png',
- cpu1: './images/CPU1.png',
- cpu2: './images/CPU2.png',
- cpu3: './images/CPU3.png'
+ player: 'photo/player.png',
+ cpu1: 'photo/CPU1.png',
+ cpu2: 'photo/CPU2.png',
+ cpu3: 'photo/CPU3.png'
 };
 
+/* 画像エラー時のフォールバック処理 */
 function handleImageError(imgEl, fallbackText) {
  const container = imgEl.parentElement;
  if (container) {
@@ -1448,10 +1508,6 @@ function setupCharacterAvatars() {
  const el = document.getElementById(id);
  if (el) {
  el.style.display = 'block';
- el.onload = function() {
- const fallback = this.parentElement.querySelector('.avatar-fallback-text');
- if (fallback) fallback.remove();
- };
  el.src = src;
  }
  };
@@ -1465,7 +1521,9 @@ function setupCharacterAvatars() {
  setSrc('img-howto-c2-char', AVATAR_DATA.cpu1);
 }
 
+/* 全65個の漢字データベース */
 const KANJI_MASTER_POOL = [
+ // 氵（さんずい）13個
  { kanji: '湯', yomi: 'トウ', parts: ['氵', '昜'], bushu: '氵' },
  { kanji: '油', yomi: 'ユ', parts: ['氵', '由'], bushu: '氵' },
  { kanji: '注', yomi: 'チュウ', parts: ['氵', '主'], bushu: '氵' },
@@ -1479,10 +1537,14 @@ const KANJI_MASTER_POOL = [
  { kanji: '清', yomi: 'セイ', parts: ['氵', '青'], bushu: '氵' },
  { kanji: '法', yomi: 'ホウ', parts: ['氵', '去'], bushu: '氵' },
  { kanji: '沖', yomi: 'チュウ', parts: ['氵', '中'], bushu: '氵' },
+
+ // 扌（てへん）4個
  { kanji: '拾', yomi: 'シュウ・ジュウ', parts: ['扌', '合'], bushu: '扌' },
  { kanji: '持', yomi: 'ジ', parts: ['扌', '寺'], bushu: '扌' },
  { kanji: '打', yomi: 'ダ', parts: ['扌', '丁'], bushu: '扌' },
  { kanji: '折', yomi: 'セツ', parts: ['扌', '斤'], bushu: '扌' },
+
+ // 木（きへん）9個
  { kanji: '柱', yomi: 'チュウ', parts: ['木', '主'], bushu: '木' },
  { kanji: '板', yomi: 'ハン・バン', parts: ['木', '反'], bushu: '木' },
  { kanji: '横', yomi: 'オウ', parts: ['木', '黄'], bushu: '木' },
@@ -1492,6 +1554,8 @@ const KANJI_MASTER_POOL = [
  { kanji: '材', yomi: 'ザイ', parts: ['木', '才'], bushu: '木' },
  { kanji: '梅', yomi: 'バイ', parts: ['木', '毎'], bushu: '木' },
  { kanji: '松', yomi: 'ショウ', parts: ['木', '公'], bushu: '木' },
+
+ // 亻（にんべん）14個
  { kanji: '仕', yomi: 'シ', parts: ['亻', '士'], bushu: '亻' },
  { kanji: '使', yomi: 'シ', parts: ['亻', '吏'], bushu: '亻' },
  { kanji: '住', yomi: 'ジュウ', parts: ['亻', '主'], bushu: '亻' },
@@ -1506,6 +1570,8 @@ const KANJI_MASTER_POOL = [
  { kanji: '便', yomi: 'ベン・ビン', parts: ['亻', '更'], bushu: '亻' },
  { kanji: '仲', yomi: 'チュウ', parts: ['亻', '中'], bushu: '亻' },
  { kanji: '例', yomi: 'レイ', parts: ['亻', '列'], bushu: '亻' },
+
+ // 言（ごんべん）8個
  { kanji: '談', yomi: 'ダン', parts: ['言', '炎'], bushu: '言' },
  { kanji: '詩', yomi: 'シ', parts: ['言', '寺'], bushu: '言' },
  { kanji: '調', yomi: 'チョウ', parts: ['言', '周'], bushu: '言' },
@@ -1514,17 +1580,23 @@ const KANJI_MASTER_POOL = [
  { kanji: '話', yomi: 'ワ', parts: ['言', '舌'], bushu: '言' },
  { kanji: '課', yomi: 'カ', parts: ['言', '果'], bushu: '言' },
  { kanji: '議', yomi: 'ギ', parts: ['言', '義'], bushu: '言' },
+
+ // 禾（のぎへん）6個
  { kanji: '秒', yomi: 'ビョウ', parts: ['禾', '少'], bushu: '禾' },
  { kanji: '和', yomi: 'ワ・カン', parts: ['禾', '口'], bushu: '禾' },
  { kanji: '秋', yomi: 'シュウ', parts: ['禾', '火'], bushu: '禾' },
  { kanji: '科', yomi: 'カ', parts: ['禾', '斗'], bushu: '禾' },
  { kanji: '積', yomi: 'セキ', parts: ['禾', '責'], bushu: '禾' },
  { kanji: '種', yomi: 'シュ', parts: ['禾', '重'], bushu: '禾' },
+
+ // 宀（うかんむり）5個
  { kanji: '安', yomi: 'アン', parts: ['宀', '女'], bushu: '宀' },
  { kanji: '客', yomi: 'キャク・カク', parts: ['宀', '各'], bushu: '宀' },
  { kanji: '宮', yomi: 'キュウ・グウ', parts: ['宀', '呂'], bushu: '宀' },
  { kanji: '守', yomi: 'シュ・ス', parts: ['宀', '寸'], bushu: '宀' },
  { kanji: '完', yomi: 'カン', parts: ['宀', '元'], bushu: '宀' },
+
+ // 竹（たけかんむり）6個
  { kanji: '等', yomi: 'トウ', parts: ['竹', '寺'], bushu: '竹' },
  { kanji: '箱', yomi: 'ソウ', parts: ['竹', '相'], bushu: '竹' },
  { kanji: '笛', yomi: 'テキ', parts: ['竹', '由'], bushu: '竹' },
@@ -1552,7 +1624,7 @@ window.addEventListener('DOMContentLoaded', () => {
  loadUnlockedKanjiFromStorage();
  fitGameToScreen();
  
- document.getElementById('setting-player-name-input').addEventListener('input', (e) => {
+document.getElementById('setting-player-name-input').addEventListener('input', (e) => {
  PLAYER_NAMES[0] = e.target.value || 'プレイヤー';
  document.getElementById('player-profile-name-text').innerText = PLAYER_NAMES[0];
  document.getElementById('initial-player-name').value = PLAYER_NAMES[0];
@@ -1588,16 +1660,17 @@ function submitInitialPlayerName(event) {
 const FOUR_COLORS = ['color-green', 'color-blue', 'color-red', 'color-yellow'];
 let BUSHU_COLOR_MAP = {};
 
+/* 各色のカード総枚数が均等（約18〜20枚ずつ）になるよう最適化した部首・色割り当て処理 */
 function randomizeBushuColors() {
  const largeGroups = ['氵', '亻', '木'].sort(() => Math.random() - 0.5);
  const midGroups = ['言', '扌'].sort(() => Math.random() - 0.5);
  const smallGroups = ['禾', '宀', '竹'].sort(() => Math.random() - 0.5);
 
  const bushuPairs = [
- [largeGroups[0], smallGroups[0]], 
- [largeGroups[1], smallGroups[1]], 
- [largeGroups[2], smallGroups[2]], 
- [midGroups[0], midGroups[1]] 
+ [largeGroups[0], smallGroups[0]],
+ [largeGroups[1], smallGroups[1]],
+ [largeGroups[2], smallGroups[2]],
+ [midGroups[0], midGroups[1]]
  ];
 
  const colorsShuffled = [...FOUR_COLORS].sort(() => Math.random() - 0.5);
@@ -1617,6 +1690,7 @@ function getBushuColorClass(bushuKey) {
  return BUSHU_COLOR_MAP[bushuKey] || 'color-green';
 }
 
+/* 特殊カードの左上バッジ表記設定 */
 const SPECIAL_BADGE_MAP = {
  'SKIP': 'スキップ',
  'REVERSE': 'リバース',
@@ -1640,6 +1714,8 @@ function updateSoundVal(type) {
  }
 }
 
+let KANJI_DB = KANJI_MASTER_POOL;
+
 const PLAYER_NAMES = ['あなた', 'CPU 1', 'CPU 2', 'CPU 3'];
 const PLAYER_AVATAR_KEYS = ['player', 'cpu1', 'cpu2', 'cpu3'];
 
@@ -1656,6 +1732,7 @@ let bushuDeclared = [false, false, false, false];
 let pendingDrawCount = 0;
 let cpuTimerId = null;
 
+/* ワイルドカード選択中の完全ロックフラグ */
 let isWildSelecting = false;
 
 let cpuSpeedMs = 1800;
@@ -1730,7 +1807,7 @@ function renderZukanGrid() {
 
  const badge = document.createElement('span');
  badge.className = `zukan-card-status-badge ${isUnlocked ? 'status-found' : 'status-locked'}`;
- badge.innerText = isUnlocked ? '✔ 発見' : '★ 未発見';
+ badge.innerText = isUnlocked ? '✔ 発見' : '💡 ヒント';
 
  const charEl = document.createElement('span');
  charEl.className = 'zukan-card-char';
@@ -1739,7 +1816,12 @@ function renderZukanGrid() {
  cardEl.appendChild(badge);
  cardEl.appendChild(charEl);
 
- if (isUnlocked) cardEl.onclick = () => selectZukanKanjiDetail(item);
+ if (isUnlocked) {
+ cardEl.onclick = () => selectZukanKanjiDetail(item);
+ } else {
+ // 未発見の漢字を押したらヒントを表示
+ cardEl.onclick = () => selectZukanKanjiHint(item);
+ }
  gridEl.appendChild(cardEl);
  });
 
@@ -1747,14 +1829,19 @@ function renderZukanGrid() {
  const totalKanji = KANJI_MASTER_POOL.length;
  document.getElementById('zukan-count-text').innerText = `見つけた漢字: ${totalFound} / ${totalKanji}`;
 
- if (selectedZukanKanji && unlockedKanjiSet.has(selectedZukanKanji.kanji)) {
+ if (selectedZukanKanji) {
+ if (unlockedKanjiSet.has(selectedZukanKanji.kanji)) {
  selectZukanKanjiDetail(selectedZukanKanji);
+ } else {
+ selectZukanKanjiHint(selectedZukanKanji);
+ }
  } else {
  resetZukanDetailDisplay();
  }
 }
 
 function resetZukanDetailDisplay() {
+ document.getElementById('detail-panel-title').innerHTML = '⭐ <ruby>漢字<rt>かんじ</rt></ruby>のくわしい<ruby>情報<rt>じょうほう</rt></ruby>';
  document.getElementById('detail-content-area').classList.add('hidden');
  document.getElementById('detail-empty-area').classList.remove('hidden');
 }
@@ -1764,27 +1851,60 @@ function selectZukanKanjiDetail(item) {
  document.getElementById('detail-empty-area').classList.add('hidden');
  document.getElementById('detail-content-area').classList.remove('hidden');
 
- document.getElementById('detail-kanji-char').innerText = item.kanji;
+ document.getElementById('detail-panel-title').innerHTML = '⭐ <ruby>漢字<rt>かんじ</rt></ruby>のくわしい<ruby>情報<rt>じょうほう</rt></ruby>';
+ 
+const kanjiBox = document.getElementById('detail-kanji-char');
+ kanjiBox.classList.remove('hint-box');
+ kanjiBox.innerText = item.kanji;
+
  document.getElementById('detail-kanji-yomi').innerText = item.yomi || item.kanji;
  document.getElementById('detail-kanji-imi').innerText = `${item.bushu}`;
 
+ document.getElementById('detail-combine-label').innerHTML = 'パーツの<ruby>組<rt>く</rt></ruby>み<ruby>合<rt>あ</rt></ruby>わせ';
  let flowHtml = item.parts.map(p => `<span class="mini-part-badge">${p}</span>`).join(' ＋ ');
  flowHtml += ` ＝ ${item.kanji}`;
  document.getElementById('detail-combine-flow').innerHTML = flowHtml;
+}
+
+/* 未発見の漢字を押した際のヒント表示処理 */
+function selectZukanKanjiHint(item) {
+ selectedZukanKanji = item;
+ document.getElementById('detail-empty-area').classList.add('hidden');
+ document.getElementById('detail-content-area').classList.remove('hidden');
+
+ document.getElementById('detail-panel-title').innerHTML = '💡 <ruby>未発見<rt>みはっけん</rt></ruby><ruby>漢字<rt>かんじ</rt></ruby>のヒント <span class="hint-mode-badge">HINT</span>';
+
+ const kanjiBox = document.getElementById('detail-kanji-char');
+ kanjiBox.classList.add('hint-box');
+ kanjiBox.innerText = '？';
+
+ document.getElementById('detail-kanji-yomi').innerText = `${item.yomi}（音読み）`;
+ document.getElementById('detail-kanji-imi').innerText = `「${item.bushu}」のなかま`;
+
+ document.getElementById('detail-combine-label').innerHTML = `組み合わせヒント（全${item.parts.length}パーツ）`;
+ let hintPartsHtml = item.parts.map((p, idx) => {
+ if (p === item.bushu) {
+ return `<span class="mini-part-badge">${p}</span>`;
+ } else {
+ return `<span class="mini-part-badge hint-part">？</span>`;
+ }
+ }).join(' ＋ ');
+ hintPartsHtml += ` ＝ ？`;
+ document.getElementById('detail-combine-flow').innerHTML = hintPartsHtml;
 }
 
 function generateOptimized90Deck() {
  let cardPool = [];
 
  const bushuWeights = [
- { bushu: '氵', count: 18 },
- { bushu: '扌', count: 15 },
- { bushu: '木', count: 18 },
- { bushu: '亻', count: 18 },
- { bushu: '言', count: 15 },
- { bushu: '禾', count: 12 },
- { bushu: '宀', count: 7 },
- { bushu: '竹', count: 7 }
+ { bushu: '氵', count: 12 },
+ { bushu: '扌', count: 10 },
+ { bushu: '木', count: 12 },
+ { bushu: '亻', count: 12 },
+ { bushu: '言', count: 10 },
+ { bushu: '禾', count: 8 },
+ { bushu: '宀', count: 6 },
+ { bushu: '竹', count: 6 }
  ];
 
  bushuWeights.forEach(bInfo => {
@@ -1798,10 +1918,10 @@ function generateOptimized90Deck() {
 
  const specialList = [
  { type: 'DRAW2', val: '引', count: 4 },
- { type: 'DRAW4', val: '倍', count: 3 },
- { type: 'SKIP', val: '飛', count: 4 },
- { type: 'REVERSE', val: '逆', count: 4 },
- { type: 'WILD', val: '変', count: 3 }
+ { type: 'DRAW4', val: '倍', count: 2 },
+ { type: 'SKIP', val: '飛', count: 3 },
+ { type: 'REVERSE', val: '逆', count: 3 },
+ { type: 'WILD', val: '変', count: 2 }
  ];
 
  specialList.forEach(s => {
@@ -1819,7 +1939,8 @@ function generateOptimized90Deck() {
 
 function dealBalancedInitialHands() {
  players = [[], [], [], []];
- for (let p = 0; p < 4; p++) {
+ 
+for (let p = 0; p < 4; p++) {
  let hand = [];
  while (hand.length < 7 && deck.length > 0) {
  hand.push(deck.pop());
@@ -1832,9 +1953,9 @@ function initGame() {
  if (timerInterval) clearInterval(timerInterval);
  if (cpuTimerId) clearTimeout(cpuTimerId);
  
- randomizeBushuColors();
+randomizeBushuColors();
  deck = generateOptimized90Deck(); 
- turn = 0; direction = 1;
+turn = 0; direction = 1;
  selectedIndices = []; historyCompletedKanji = [];
  bushuDeclared = [false, false, false, false]; pendingDrawCount = 0;
  wildSpecifiedBushu = null; timeRemaining = gameTimeLimitSetting; isGameOver = false;
@@ -1848,8 +1969,6 @@ function initGame() {
 
  unlockKanjiInZukan(randomKanji.kanji);
  dealBalancedInitialHands();
-
- if (deck.length > 100) deck = deck.slice(0, 100);
 
  fitGameToScreen();
  renderUI();
@@ -1887,7 +2006,7 @@ function handleTimeUp() {
 function renderUI() {
  document.getElementById('deck-count-num').innerText = deck.length;
  
- for (let p = 0; p < 4; p++) {
+for (let p = 0; p < 4; p++) {
  if (players[p].length > 2) bushuDeclared[p] = false;
  }
 
@@ -1919,14 +2038,14 @@ function renderUI() {
  const topCardEl = document.getElementById('top-card-element');
  ALL_COLOR_CLASSES.forEach(cls => topCardEl.classList.remove(cls));
  
- const currentFieldBushu = wildSpecifiedBushu || (topCard ? topCard.bushu : '氵');
+const currentFieldBushu = wildSpecifiedBushu || (topCard ? topCard.bushu : '氵');
  let topColorClass = (topCard && topCard.type === 'SPECIAL') ? 'color-special' : getBushuColorClass(currentFieldBushu);
  topCardEl.classList.add(topColorClass);
 
  const msgL1 = document.getElementById('msg-line1');
  const msgL2 = document.getElementById('msg-line2');
  
- const selectedCards = selectedIndices.map(i => players[0][i]);
+const selectedCards = selectedIndices.map(i => players[0][i]);
  const hasSpecialSelected = selectedCards.some(c => c && c.type === 'SPECIAL');
 
  if (hasSpecialSelected) {
@@ -2132,11 +2251,11 @@ function triggerBigBushuEffect(playerIdx) {
  const container = document.getElementById('bushu-cutin-container');
  const tag = document.getElementById('bushu-player-tag');
  
- tag.innerText = PLAYER_NAMES[playerIdx];
+tag.innerText = PLAYER_NAMES[playerIdx];
  container.classList.remove('hidden');
  container.style.animation = 'none';
  void container.offsetWidth; 
- container.style.animation = 'bushuZoomAnim 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards';
+container.style.animation = 'bushuZoomAnim 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards';
 
  setTimeout(() => container.classList.add('hidden'), 1200);
 }
@@ -2164,7 +2283,7 @@ function processPlayedCards(cards, playerIdx) {
  if (cards.length === 1 && cards[0].type === 'SPECIAL') {
  const sp = cards[0]; topCard = sp; activeParts = [];
  
- if (sp.effect === 'SKIP') {
+if (sp.effect === 'SKIP') {
  triggerSpecialCutin('飛 SKIP!', '次のプレイヤーをスキップ！ ⤵️', 'SKIP');
  advanceTurn();
  } else if (sp.effect === 'REVERSE') {
@@ -2182,7 +2301,7 @@ function processPlayedCards(cards, playerIdx) {
  isWildSelecting = true;
  if (cpuTimerId) clearTimeout(cpuTimerId);
  document.getElementById('wild-modal').classList.remove('hidden'); 
- return;
+return;
  } else {
  const bushuList = ['氵', '扌', '木', '禾', '亻', '言', '宀', '竹'];
  const selectedB = bushuList[Math.floor(Math.random() * bushuList.length)];
@@ -2230,10 +2349,9 @@ function triggerDrawHitBanner(playerIdx, drawAmount, callback) {
 
 function checkWinOrNextTurn() {
  if (isGameOver || isWildSelecting) return;
- 
  if (players[turn].length === 0) {
  isGameOver = true; 
- if (timerInterval) clearInterval(timerInterval);
+if (timerInterval) clearInterval(timerInterval);
  const winnerIdx = turn; const others = [];
  for (let i = 0; i < 4; i++) { if (i !== winnerIdx) others.push({ playerIdx: i, count: players[i].length }); }
  others.sort((a, b) => a.count - b.count);
@@ -2254,11 +2372,8 @@ function scheduleCpuTurn() {
 
 function advanceTurn() { turn = (turn + direction + 4) % 4; }
 
-/* 🎯 強化版スマートドロー: 手札内のペアだけでなく「場に出せるカード」も山札から超優先抽選 */
 function drawCardsSmart(playerIdx, count) {
  const hand = players[playerIdx];
- const topBushuKey = wildSpecifiedBushu || (topCard ? topCard.bushu : '氵');
- const topColorClass = (topCard && topCard.type === 'SPECIAL') ? 'color-special' : getBushuColorClass(topBushuKey);
 
  for (let c = 0; c < count; c++) {
  if (deck.length === 0) {
@@ -2281,34 +2396,14 @@ function drawCardsSmart(playerIdx, count) {
  }
 
  let targetCardIndex = -1;
- 
- // 90%の確率で「手札同士または場に出せるカード」を優先ドロー
- if (Math.random() < 0.90) {
  for (let i = 0; i < deck.length; i++) {
  const candidate = deck[i];
- if (candidate.type === 'SPECIAL') continue; // 特殊カード以外を最優先
- 
- // 判定A: 手札のカードと合体して出せるペアになるか？
- const canFormValidPairWithHand = hand.some(hCard => {
+ if (candidate.type === 'SPECIAL') { targetCardIndex = i; break; }
+ const canFormPairWithHand = hand.some(hCard => {
  if (hCard.type === 'SPECIAL') return false;
- const matchedKanji = findMatchingKanji([hCard.value, candidate.value]);
- if (!matchedKanji) return false;
-
- const bushuPartCard = [hCard, candidate].find(cardItem => cardItem.value === matchedKanji.bushu);
- const matchedBushuKey = bushuPartCard ? bushuPartCard.bushu : matchedKanji.bushu;
- const matchedBushuColor = getBushuColorClass(matchedBushuKey);
-
- const isSameBushuColor = (matchedBushuKey === topBushuKey) || (matchedBushuColor === topColorClass);
- const hasCommonPart = (activeParts.length === 0) || matchedKanji.parts.some(p => activeParts.includes(p));
-
- return isSameBushuColor || hasCommonPart;
+ return !!findMatchingKanji([hCard.value, candidate.value]);
  });
-
- if (canFormValidPairWithHand) {
- targetCardIndex = i;
- break;
- }
- }
+ if (canFormPairWithHand) { targetCardIndex = i; break; }
  }
 
  if (targetCardIndex > -1) {
@@ -2336,13 +2431,14 @@ function checkAndAutoProcessPlayerDraw() {
  }
 }
 
+/* プレイヤーが山札から引く処理 */
 function drawFromDeckPlayer() {
  if (turn !== 0 || isGameOver || isWildSelecting) return;
  
- if (pendingDrawCount > 0) {
+if (pendingDrawCount > 0) {
  const hitAmount = pendingDrawCount;
  drawCardsSmart(0, hitAmount); 
- pendingDrawCount = 0;
+pendingDrawCount = 0;
  triggerDrawHitBanner(0, hitAmount, () => {
  advanceTurn(); renderUI(); updateTurnDisplay();
  if (turn !== 0 && !isGameOver) scheduleCpuTurn();
@@ -2350,7 +2446,7 @@ function drawFromDeckPlayer() {
  return;
  } 
 
- drawCardsSmart(0, 1);
+drawCardsSmart(0, 1);
  selectedIndices = [];
 
  const canPlay = checkPlayerHasAnyValidCombo();
@@ -2360,7 +2456,7 @@ function drawFromDeckPlayer() {
  } else {
  renderUI();
  const banner = document.getElementById('penalty-error-banner');
- banner.innerText = '出せるカードがありません。次の人の番になります';
+ banner.innerText = '出せるカードがありません';
  banner.classList.remove('hidden');
 
  setTimeout(() => {
@@ -2378,7 +2474,7 @@ function checkPlayerHasAnyValidCombo() {
  const hand = players[0];
  if (!hand || hand.length === 0) return false;
  
- if (hand.some(c => c.type === 'SPECIAL')) return true;
+if (hand.some(c => c.type === 'SPECIAL')) return true;
 
  const topBushuKey = wildSpecifiedBushu || (topCard ? topCard.bushu : '氵');
  const topColorClass = (topCard && topCard.type === 'SPECIAL') ? 'color-special' : getBushuColorClass(topBushuKey);
@@ -2441,20 +2537,19 @@ function continueCpuTurnExecution() {
  if (pendingDrawCount > 0) {
  const counterDrawIdx = hand.findIndex(c => c.type === 'SPECIAL' && (c.effect === 'DRAW2' || c.effect === 'DRAW4'));
  if (counterDrawIdx > -1) {
- const playedCard = hand.splice(counterDrawIdx, 1)[0];
-
+ const played = hand.splice(counterDrawIdx, 1);
  if (hand.length <= 2 && !bushuDeclared[cpuIdx] && Math.random() < 0.85) {
  triggerCpuPressBushuButton(cpuIdx);
  }
- processPlayedCards([playedCard], cpuIdx);
+ processPlayedCards(played, cpuIdx);
  checkWinOrNextTurn();
  return;
  } else {
  const hitAmount = pendingDrawCount; 
- drawCardsSmart(cpuIdx, hitAmount); 
- pendingDrawCount = 0;
+drawCardsSmart(cpuIdx, hitAmount); 
+pendingDrawCount = 0;
  triggerDrawHitBanner(cpuIdx, hitAmount, () => { checkWinOrNextTurn(); }); 
- return;
+return;
  }
  }
 
@@ -2475,13 +2570,9 @@ function continueCpuTurnExecution() {
  const hasCommon = activeParts.length === 0 || match2.parts.some(p => activeParts.includes(p));
  const isSameBushu = (matchedBushuKey === topBushuKey) || (matchedColor === topColorClass);
  
- if (hasCommon || isSameBushu) {
- const played = [hand[i], hand[j]];
- const idx1 = hand.indexOf(played[0]);
- if (idx1 > -1) hand.splice(idx1, 1);
- const idx2 = hand.indexOf(played[1]);
- if (idx2 > -1) hand.splice(idx2, 1);
-
+if (hasCommon || isSameBushu) {
+ const played = [hand[j], hand[i]];
+ hand.splice(j, 1); hand.splice(i, 1);
  if (hand.length <= 2 && !bushuDeclared[cpuIdx] && Math.random() < 0.85) {
  triggerCpuPressBushuButton(cpuIdx);
  }
@@ -2495,12 +2586,11 @@ function continueCpuTurnExecution() {
 
  const specialIdx = hand.findIndex(c => c.type === 'SPECIAL');
  if (specialIdx > -1) {
- const playedCard = hand.splice(specialIdx, 1)[0];
-
+ const played = hand.splice(specialIdx, 1);
  if (hand.length <= 2 && !bushuDeclared[cpuIdx] && Math.random() < 0.85) {
  triggerCpuPressBushuButton(cpuIdx);
  }
- processPlayedCards([playedCard], cpuIdx);
+ processPlayedCards(played, cpuIdx);
  checkWinOrNextTurn();
  return;
  }
@@ -2520,12 +2610,8 @@ function continueCpuTurnExecution() {
  const hasCommon = activeParts.length === 0 || match2.parts.some(p => activeParts.includes(p));
  const isSameBushu = (matchedBushuKey === topBushuKey) || (matchedColor === topColorClass);
  if (hasCommon || isSameBushu) {
- const played = [hand[i], hand[j]];
- const idx1 = hand.indexOf(played[0]);
- if (idx1 > -1) hand.splice(idx1, 1);
- const idx2 = hand.indexOf(played[1]);
- if (idx2 > -1) hand.splice(idx2, 1);
-
+ const played = [hand[j], hand[i]];
+ hand.splice(j, 1); hand.splice(i, 1);
  if (hand.length <= 2 && !bushuDeclared[cpuIdx] && Math.random() < 0.85) {
  triggerCpuPressBushuButton(cpuIdx);
  }
@@ -2539,12 +2625,11 @@ function continueCpuTurnExecution() {
 
  const postDrawSpecialIdx = hand.findIndex(c => c.type === 'SPECIAL');
  if (postDrawSpecialIdx > -1) {
- const playedCard = hand.splice(postDrawSpecialIdx, 1)[0];
-
+ const played = hand.splice(postDrawSpecialIdx, 1);
  if (hand.length <= 2 && !bushuDeclared[cpuIdx] && Math.random() < 0.85) {
  triggerCpuPressBushuButton(cpuIdx);
  }
- processPlayedCards([playedCard], cpuIdx);
+ processPlayedCards(played, cpuIdx);
  checkWinOrNextTurn();
  return;
  }
@@ -2576,6 +2661,7 @@ function showResultModal(rankingList, isTimeUp = false) {
  speechSubEl.innerText = isPlayerWinner ? "やったね！" : "お疲れ様！";
  speechMainEl.innerText = `1位だよ！`;
 
+ // 勝者のアバターアイコン描画（画像エラー時も確実にフォールバック文字を表示）
  const winnerAvatarKey = PLAYER_AVATAR_KEYS[winnerIdx];
  const winnerName = PLAYER_NAMES[winnerIdx];
  const fallbackChar = isPlayerWinner ? '👤' : `🤖${winnerIdx}`;
