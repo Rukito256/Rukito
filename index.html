@@ -251,17 +251,41 @@ font-weight: bold; color: #111827; position: relative; border: 2.5px solid #ffff
  width: 490px; height: 185px; border: 3px solid #00a2ff;
  box-shadow: 0 0 25px #0088ff, inset 0 0 30px rgba(0, 102, 255, 0.5); border-radius: 28px;
  background: radial-gradient(ellipse at center, rgba(14, 30, 95, 0.85) 0%, rgba(6, 15, 50, 0.95) 100%);
- display: flex; justify-content: center; align-items: center; position: relative;
+ display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative;
  }
 
  .top-center-card {
- width: 82px; height: 116px; border-radius: 14px; border: 3.5px solid #ffffff;
+ width: 82px; height: 112px; border-radius: 14px; border: 3.5px solid #ffffff;
  display: flex; flex-direction: column; justify-content: center; align-items: center;
  position: relative; transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease; overflow: hidden;
  }
  .top-center-card::before {
  content: ''; position: absolute; top: 4px; left: 4px; right: 4px; bottom: 4px;
  border: 1.5px solid rgba(255, 255, 255, 0.7); border-radius: 9px; pointer-events: none;
+ }
+
+ /* 場の漢字の分解パーツ表示バッジ（常時表示で頭の負荷を軽減） */
+ .field-parts-breakdown {
+ margin-top: 6px;
+ background: rgba(15, 23, 42, 0.9);
+ border: 1.5px solid #38bdf8;
+ border-radius: 12px;
+ padding: 2px 12px;
+ font-size: 11.5px;
+ font-weight: 900;
+ color: #e0f2fe;
+ box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+ display: flex;
+ align-items: center;
+ gap: 5px;
+ z-index: 5;
+ }
+ .field-parts-breakdown span.part-chip {
+ background: #0284c7;
+ color: #ffffff;
+ padding: 0 6px;
+ border-radius: 6px;
+ border: 1px solid #bae6fd;
  }
 
  .top-center-card.combine-bump { animation: combineBump 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
@@ -273,24 +297,79 @@ font-weight: bold; color: #111827; position: relative; border: 2.5px solid #ffff
 
  .top-center-card .kanji-main { font-size: 46px; font-weight: 900; color: #0f172a; font-family: 'Kozuka Mincho Pro', 'Yu Mincho', serif; z-index: 2; text-align: center; line-height: 1; }
 
- .right-control-group { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+ .right-control-group { display: flex; flex-direction: column; align-items: center; gap: 7px; }
 
  .deck-neon-stack { display: flex; flex-direction: column; align-items: center; cursor: pointer; position: relative; }
  .deck-card-visual {
- width: 62px; height: 76px; background: linear-gradient(135deg, #1d4ed8 0%, #1e3a8a 100%);
+ width: 58px; height: 68px; background: linear-gradient(135deg, #1d4ed8 0%, #1e3a8a 100%);
  border: 2.5px solid #00f0ff; box-shadow: 0 0 15px #00f0ff; border-radius: 10px;
- display: flex; justify-content: center; align-items: center; color: #ffffff; font-size: 22px; font-weight: bold; position: relative;
+ display: flex; justify-content: center; align-items: center; color: #ffffff; font-size: 20px; font-weight: bold; position: relative;
  }
  .deck-card-visual::after {
- content: ''; position: absolute; top: -4px; left: -2px; width: 62px; height: 76px;
+ content: ''; position: absolute; top: -4px; left: -2px; width: 58px; height: 68px;
  background: transparent; border: 2px solid rgba(0, 240, 255, 0.4); border-radius: 10px; z-index: -1;
  }
- .deck-label-text { font-size: 11px; font-weight: 900; color: #ffffff; margin-top: 5px; text-shadow: 0 0 8px #00f0ff; }
+ .deck-label-text { font-size: 10.5px; font-weight: 900; color: #ffffff; margin-top: 3px; text-shadow: 0 0 8px #00f0ff; }
 
  .btn-confirm-neon {
  background: linear-gradient(90deg, #0284c7 0%, #38bdf8 100%); border: 2.5px solid #ffffff;
- box-shadow: 0 0 18px #38bdf8; color: #ffffff; padding: 8px 18px; border-radius: 22px;
- font-size: 13px; font-weight: 900; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.2s ease;
+ box-shadow: 0 0 16px #38bdf8; color: #ffffff; padding: 6px 16px; border-radius: 22px;
+ font-size: 12.5px; font-weight: 900; cursor: pointer; display: flex; align-items: center; gap: 5px; transition: all 0.2s ease;
+ }
+ .btn-confirm-neon:hover { transform: scale(1.04); }
+
+ /* 💡 ヒントボタン（わからない人だけが押せる段階式ヒント） */
+ .btn-hint-neon {
+ background: linear-gradient(90deg, #7c3aed 0%, #a855f7 100%);
+ border: 2px solid #e9d5ff;
+ box-shadow: 0 0 12px rgba(168, 85, 247, 0.65);
+ color: #ffffff;
+ padding: 4px 14px;
+ border-radius: 18px;
+ font-size: 11.5px;
+ font-weight: 900;
+ cursor: pointer;
+ display: flex;
+ align-items: center;
+ gap: 4px;
+ transition: all 0.2s ease;
+ }
+ .btn-hint-neon:hover { transform: scale(1.05); filter: brightness(1.1); }
+ .btn-hint-neon.idle-nudge {
+ animation: hintNudgePulse 1s infinite alternate;
+ border-color: #fde047;
+ }
+ @keyframes hintNudgePulse {
+ 0% { transform: scale(1); box-shadow: 0 0 10px #a855f7; }
+ 100% { transform: scale(1.08); box-shadow: 0 0 22px #fde047, 0 0 30px #a855f7; }
+ }
+
+ /* ヒント吹き出しバナー */
+ .hint-toast-banner {
+ position: absolute;
+ top: 10px;
+ left: 50%;
+ transform: translateX(-50%);
+ background: linear-gradient(135deg, rgba(46, 16, 101, 0.96) 0%, rgba(30, 27, 75, 0.96) 100%);
+ border: 2px solid #c084fc;
+ box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), 0 0 16px rgba(192, 132, 252, 0.8);
+ color: #ffffff;
+ font-size: 12.5px;
+ font-weight: 900;
+ padding: 6px 18px;
+ border-radius: 20px;
+ z-index: 165;
+ white-space: nowrap;
+ display: flex;
+ align-items: center;
+ gap: 6px;
+ animation: popIn 0.25s ease-out;
+ }
+
+ /* 2回目ヒント用の控えめなカードハイライト */
+ .neon-card.hint-card-glow {
+ box-shadow: 0 0 0 3.5px #d8b4fe, 0 0 22px #a855f7 !important;
+ border-color: #f3e8ff !important;
  }
 
  .bottom-section { display: flex; justify-content: space-between; align-items: flex-end; width: 100%; z-index: 20; position: relative; }
@@ -465,7 +544,7 @@ font-weight: bold; color: #111827; position: relative; border: 2.5px solid #ffff
  border-radius: 20px; box-shadow: 0 0 20px rgba(239, 68, 68, 0.9); white-space: nowrap; z-index: 120; animation: popIn 0.3s ease-out;
  }
  .wild-bushu-banner {
- position: absolute; top: 10px; background: #f59e0b; color: #111827; font-size: 13px; font-weight: bold; padding: 3px 12px; border-radius: 12px; box-shadow: 0 0 10px rgba(245, 158, 11, 0.8); z-index: 100;
+ position: absolute; top: 8px; background: #f59e0b; color: #111827; font-size: 12px; font-weight: bold; padding: 2px 12px; border-radius: 12px; box-shadow: 0 0 10px rgba(245, 158, 11, 0.8); z-index: 100;
  }
  @keyframes popIn {
  0% { transform: translateX(-50%) scale(0.5); opacity: 0; }
@@ -1255,6 +1334,7 @@ position: absolute;
 
  <div class="speech-bubble hidden" id="speech-bubble">💬 CPU 1「BŪSHU! を言い忘れたな！ ペナルティ1枚！」</div>
  <div class="penalty-error-banner hidden" id="penalty-error-banner">⚠️ 組み合わせが間違っています！ ペナルティとして1枚引きます！</div>
+ <div class="hint-toast-banner hidden" id="hint-toast-banner">💡 ヒント</div>
 
  <div class="middle-section">
  <div class="neon-message-sign" id="message-sign-box">
@@ -1269,6 +1349,14 @@ position: absolute;
 <div class="top-center-card" id="top-card-element">
  <span class="kanji-main" id="top-kanji-text">清</span>
  </div>
+
+ <!-- 場の漢字の分解パーツ常時表示（記憶・分解の負荷を軽減） -->
+ <div class="field-parts-breakdown" id="field-parts-breakdown">
+ <span>パーツ:</span>
+ <span class="part-chip">氵</span>
+ <span>＋</span>
+ <span class="part-chip">青</span>
+ </div>
  </div>
 
  <div class="right-control-group">
@@ -1280,6 +1368,11 @@ position: absolute;
  <button class="btn-confirm-neon" id="btn-submit" onclick="submitSelectedCards()">
  <span>👆</span>
  <span>カードを<ruby>確定<rt>かくてい</rt></ruby></span>
+ </button>
+
+ <button class="btn-hint-neon" id="btn-hint" onclick="requestPlayerHint()">
+ <span>💡</span>
+ <span>ヒント</span>
  </button>
  </div>
  </div>
@@ -1381,7 +1474,7 @@ position: absolute;
  <div class="char-comment-avatar" id="avatar-box-howto-c2" style="border-color:#38bdf8;">
  <img id="img-howto-c2-char" class="char-avatar-img" src="images/CPU1.png" alt="キャラ2" onerror="handleImageError(this, 'cpu1')">
  </div>
- <div class="char-comment-txt" style="color:#a5f3fc;">同じ色か同じパーツで<br>カードをつなげよう！</div>
+ <div class="char-comment-txt" style="color:#a5f3fc;">迷ったら右の「💡ヒント」を<br>押して手がかりを見よう！</div>
  </div>
  </div>
  </div>
@@ -1482,6 +1575,7 @@ position: absolute;
  </div>
 
  <div id="detail-empty-area" class="zukan-empty-msg hidden">
+ <span style="font-size:32px;">👈</span>
  <span><ruby>漢字<rt>かんじ</rt></ruby>を<ruby>選択<rt>せんたく</rt></ruby>すると<br>くわしい<ruby>情報<rt>じょうほう</rt></ruby>やヒントが<ruby>表示<rt>ひょうじ</rt></ruby>されます</span>
  </div>
  </div>
@@ -1754,7 +1848,6 @@ const FALLBACK_SVG_MAP = {
  </svg>`
 };
 
-/* 画像読み込みエラー時にSVGキャラクターを表示する処理 */
 function handleImageError(imgEl, charKey) {
  const container = imgEl.parentElement;
  if (container) {
@@ -1860,6 +1953,13 @@ const KANJI_MASTER_POOL = [
  { kanji: '節', yomi: 'セツ・セチ', parts: ['竹', '即'], bushu: '竹' }
 ];
 
+const COLOR_NAME_JP = {
+ 'color-green': '緑色',
+ 'color-blue': '青色',
+ 'color-red': '赤色',
+ 'color-yellow': '黄色'
+};
+
 let unlockedKanjiSet = new Set();
 const MASTER_KANJI_SET = new Set(KANJI_MASTER_POOL.map(k => k.kanji));
 
@@ -1911,7 +2011,6 @@ function submitInitialPlayerName(event) {
 
  gameBGM.play();
 
- // 初回起動時の自動チュートリアル案内を表示
  const hasSeenWelcome = localStorage.getItem('BUSHU_SEEN_WELCOME_TUT');
  if (!hasSeenWelcome) {
  localStorage.setItem('BUSHU_SEEN_WELCOME_TUT', '1');
@@ -2010,6 +2109,210 @@ let timerInterval = null;
 let isGameOver = true;
 
 /* =========================================================
+   段階式ヒント＆長考アシスト管理システム
+   ========================================================= */
+let hintStepCount = 0;
+let hintedCardIndex = -1;
+let hintToastTimer = null;
+let playerIdleTimer = null;
+
+function resetPlayerHintState() {
+ hintStepCount = 0;
+ hintedCardIndex = -1;
+ if (hintToastTimer) clearTimeout(hintToastTimer);
+ const toast = document.getElementById('hint-toast-banner');
+ if (toast) toast.classList.add('hidden');
+
+ const hintBtn = document.getElementById('btn-hint');
+ if (hintBtn) hintBtn.classList.remove('idle-nudge');
+ restartPlayerIdleTimer();
+}
+
+function restartPlayerIdleTimer() {
+ if (playerIdleTimer) clearTimeout(playerIdleTimer);
+ const hintBtn = document.getElementById('btn-hint');
+ if (hintBtn) hintBtn.classList.remove('idle-nudge');
+
+ if (turn === 0 && !isGameOver && !isTutorialMode && !isWildSelecting) {
+ playerIdleTimer = setTimeout(() => {
+ if (turn === 0 && !isGameOver && !isTutorialMode && hintBtn) {
+ hintBtn.classList.add('idle-nudge');
+ }
+ }, 15000);
+ }
+}
+
+function showHintToast(htmlText) {
+ const toast = document.getElementById('hint-toast-banner');
+ if (!toast) return;
+ toast.innerHTML = htmlText;
+ toast.classList.remove('hidden');
+ if (hintToastTimer) clearTimeout(hintToastTimer);
+ hintToastTimer = setTimeout(() => {
+ toast.classList.add('hidden');
+ }, 5500);
+}
+
+function findAvailablePlayerMove() {
+ const hand = players[0];
+ if (!hand || hand.length === 0) return null;
+
+ // ドロー被弾待ち中
+ if (pendingDrawCount > 0) {
+ const counterIdx = hand.findIndex(c => c.type === 'SPECIAL' && (c.effect === 'DRAW2' || c.effect === 'DRAW4'));
+ if (counterIdx > -1) {
+ return { type: 'COUNTER_DRAW', indices: [counterIdx], card: hand[counterIdx] };
+ }
+ return { type: 'MUST_DRAW' };
+ }
+
+ const topBushuKey = wildSpecifiedBushu || (topCard ? topCard.bushu : '氵');
+ const topColorClass = (topCard && topCard.type === 'SPECIAL') ? 'color-special' : getBushuColorClass(topBushuKey);
+
+ // 2枚組み合わせで出せる漢字を探す
+ for (let i = 0; i < hand.length; i++) {
+ if (hand[i].type === 'SPECIAL') continue;
+ for (let j = i + 1; j < hand.length; j++) {
+ if (hand[j].type === 'SPECIAL') continue;
+ const matched = findMatchingKanji([hand[i].value, hand[j].value]);
+ if (matched) {
+ const bushuPartCard = [hand[i], hand[j]].find(c => c.value === matched.bushu);
+ const matchedBushuKey = bushuPartCard ? bushuPartCard.bushu : matched.bushu;
+ const matchedColor = getBushuColorClass(matchedBushuKey);
+
+ const sharedParts = activeParts.filter(p => matched.parts.includes(p));
+ const hasCommon = (activeParts.length === 0) || sharedParts.length > 0;
+ const isSameColor = (matchedBushuKey === topBushuKey) || (matchedColor === topColorClass);
+
+ if (hasCommon || isSameColor) {
+ return {
+ type: 'COMBO',
+ indices: [i, j],
+ kanjiObj: matched,
+ colorClass: matchedColor,
+ isSameColor: isSameColor,
+ sharedParts: sharedParts
+ };
+ }
+ }
+ }
+ }
+
+ // 3枚組み合わせもチェック（湖・温など）
+ for (let i = 0; i < hand.length; i++) {
+ if (hand[i].type === 'SPECIAL') continue;
+ for (let j = i + 1; j < hand.length; j++) {
+ if (hand[j].type === 'SPECIAL') continue;
+ for (let k = j + 1; k < hand.length; k++) {
+ if (hand[k].type === 'SPECIAL') continue;
+ const matched = findMatchingKanji([hand[i].value, hand[j].value, hand[k].value]);
+ if (matched) {
+ const bushuPartCard = [hand[i], hand[j], hand[k]].find(c => c.value === matched.bushu);
+ const matchedBushuKey = bushuPartCard ? bushuPartCard.bushu : matched.bushu;
+ const matchedColor = getBushuColorClass(matchedBushuKey);
+ const sharedParts = activeParts.filter(p => matched.parts.includes(p));
+ const hasCommon = (activeParts.length === 0) || sharedParts.length > 0;
+ const isSameColor = (matchedBushuKey === topBushuKey) || (matchedColor === topColorClass);
+ if (hasCommon || isSameColor) {
+ return {
+ type: 'COMBO',
+ indices: [i, j, k],
+ kanjiObj: matched,
+ colorClass: matchedColor,
+ isSameColor: isSameColor,
+ sharedParts: sharedParts
+ };
+ }
+ }
+ }
+ }
+ }
+
+ // 特殊カードがあるか
+ const spIdx = hand.findIndex(c => c.type === 'SPECIAL');
+ if (spIdx > -1) {
+ return { type: 'SPECIAL', indices: [spIdx], card: hand[spIdx] };
+ }
+
+ return null;
+}
+
+function requestPlayerHint() {
+ if (isGameOver || isWildSelecting) return;
+
+ if (isTutorialMode) {
+ showHintToast('💡 上の黄色いガイドの指示どおりに操作してみよう！');
+ return;
+ }
+
+ if (turn !== 0) {
+ showHintToast('💡 今は相手のターンです。自分の番になったら押してね！');
+ return;
+ }
+
+ restartPlayerIdleTimer();
+ hintStepCount++;
+
+ const move = findAvailablePlayerMove();
+
+ if (!move) {
+ hintedCardIndex = -1;
+ renderUI();
+ showHintToast('💡 今の手札では作れる漢字がないよ！右上の「山札」を引こう！');
+ return;
+ }
+
+ if (move.type === 'MUST_DRAW') {
+ showHintToast('💡 ドロー攻撃を受けているよ！右上の「山札」をタップしよう！');
+ return;
+ }
+
+ if (move.type === 'COUNTER_DRAW') {
+ hintedCardIndex = move.indices[0];
+ renderUI();
+ showHintToast('💡 ドローカードでカウンター（反撃）ができるよ！');
+ return;
+ }
+
+ if (move.type === 'SPECIAL') {
+ if (hintStepCount === 1) {
+ showHintToast('💡 漢字が作れない時は、1枚だけで出せる「虹色の特殊カード」を使おう！');
+ } else {
+ hintedCardIndex = move.indices[0];
+ renderUI();
+ showHintToast('💡 光っている特殊カードを1枚選んで確定しよう！');
+ }
+ return;
+ }
+
+ if (move.type === 'COMBO') {
+ const k = move.kanjiObj;
+ let reasonText = '';
+ if (move.sharedParts && move.sharedParts.length > 0) {
+ reasonText = `場と同じパーツ「${move.sharedParts[0]}」を使って`;
+ } else if (move.isSameColor) {
+ const cName = COLOR_NAME_JP[move.colorClass] || '同じ色';
+ reasonText = `場と同じ「${cName}（${k.bushu}）」の部首で`;
+ } else {
+ reasonText = `手札のパーツを組み合わせて`;
+ }
+
+ if (hintStepCount === 1) {
+ // 1回目：答えは出さず、「つながり条件」と「音読み」だけで連想させる
+ hintedCardIndex = -1;
+ renderUI();
+ showHintToast(`💡 ${reasonText}、「${k.yomi}」と読む漢字が作れるよ！（もう一度押すと1枚目を教えるよ）`);
+ } else {
+ // 2回目：使うカードのうち1枚目（部首側優先）だけを光らせる
+ const bushuIdx = move.indices.find(idx => players[0][idx] && players[0][idx].value === k.bushu);
+ hintedCardIndex = (bushuIdx !== undefined) ? bushuIdx : move.indices[0];
+ renderUI();
+ showHintToast(`💡 「${k.yomi}」を作る1枚目のパーツを光らせたよ！あと1枚を探そう！`);
+ }
+ }
+}
+
+/* =========================================================
    実践型チュートリアル管理システム
    ========================================================= */
 let isTutorialMode = false;
@@ -2079,6 +2382,7 @@ const TUTORIAL_STEPS = [
 function startTutorialMode() {
  if (timerInterval) clearInterval(timerInterval);
  if (cpuTimerId) clearTimeout(cpuTimerId);
+ if (playerIdleTimer) clearTimeout(playerIdleTimer);
 
  isTutorialMode = true;
  tutorialStepIndex = 0;
@@ -2091,8 +2395,8 @@ function startTutorialMode() {
  bushuDeclared = [false, false, false, false];
  pendingDrawCount = 0;
  wildSpecifiedBushu = null;
+ resetPlayerHintState();
 
- // チュートリアル用の固定カラー割り当て（わかりやすい色分け）
  BUSHU_COLOR_MAP = {
  '氵': 'color-green',
  '木': 'color-green',
@@ -2104,11 +2408,9 @@ function startTutorialMode() {
  '竹': 'color-yellow'
  };
 
- // 最初の場のカード：「湯」（氵＋昜、緑色）
  topCard = { type: 'PART', value: '湯', bushu: '氵' };
  activeParts = ['氵', '昜'];
 
- // プレイヤーの初期手札（ステップ1〜3で順番に使えるパーツ）
  players[0] = [
  { type: 'PART', value: '氵', bushu: '氵' },
  { type: 'PART', value: '青', bushu: '氵' },
@@ -2121,7 +2423,6 @@ function startTutorialMode() {
  players[2] = [{ type: 'PART', value: '竹', bushu: '竹' }, { type: 'PART', value: '寺', bushu: '竹' }, { type: 'PART', value: '禾', bushu: '禾' }, { type: 'PART', value: '火', bushu: '禾' }];
  players[3] = [{ type: 'PART', value: '宀', bushu: '宀' }, { type: 'PART', value: '女', bushu: '宀' }, { type: 'PART', value: '扌', bushu: '扌' }, { type: 'PART', value: '丁', bushu: '扌' }];
 
- // ステップ4で山札から引かれるカード（先頭に「飛（スキップ）」を仕込む）
  deck = [
  { type: 'PART', value: '火', bushu: '禾' },
  { type: 'PART', value: '口', bushu: '禾' },
@@ -2203,7 +2504,6 @@ function applyTutorialHighlights() {
  }
  });
 
- // まだ選ばれていない対象カードを光らせる
  players[0].forEach((card, idx) => {
  if (!selectedIndices.includes(idx)) {
  const pos = needed.indexOf(card.value);
@@ -2214,7 +2514,6 @@ function applyTutorialHighlights() {
  }
  });
 
- // 2枚揃ったら「カードを確定」ボタンを光らせる
  if (selectedCount === step.targetCardValues.length && needed.length === 0) {
  submitBtn.classList.add('tutorial-highlight');
  }
@@ -2239,7 +2538,6 @@ function advanceTutorialStep() {
  selectedIndices = [];
 
  if (tutorialStepIndex >= TUTORIAL_STEPS.length) {
- // チュートリアル完了！
  isTutorialMode = false;
  clearTutorialHighlights();
  document.getElementById('tutorial-guide-panel').classList.add('hidden');
@@ -2251,7 +2549,6 @@ function advanceTutorialStep() {
  return;
  }
 
- // ステップ4（山札を引く）に移行するタイミングで、ステップ5〜7用のカードを仕込む
  if (tutorialStepIndex === 3) {
  players[0] = [
  { type: 'PART', value: '氵', bushu: '氵' },
@@ -2291,6 +2588,7 @@ function startGameFromHome() {
 function returnToHome() {
  if (timerInterval) clearInterval(timerInterval);
  if (cpuTimerId) clearTimeout(cpuTimerId);
+ if (playerIdleTimer) clearTimeout(playerIdleTimer);
  isGameOver = true;
  isWildSelecting = false;
  isTutorialMode = false;
@@ -2512,6 +2810,7 @@ turn = 0; direction = 1;
 
  unlockKanjiInZukan(randomKanji.kanji);
  dealBalancedInitialHands();
+ resetPlayerHintState();
 
  fitGameToScreen();
  renderUI();
@@ -2585,6 +2884,22 @@ const currentFieldBushu = wildSpecifiedBushu || (topCard ? topCard.bushu : '氵'
  let topColorClass = (topCard && topCard.type === 'SPECIAL') ? 'color-special' : getBushuColorClass(currentFieldBushu);
  topCardEl.classList.add(topColorClass);
 
+ // 場のカードの分解パーツ表示を更新
+ const breakdownEl = document.getElementById('field-parts-breakdown');
+ if (breakdownEl) {
+ if (wildSpecifiedBushu) {
+ breakdownEl.innerHTML = `<span>指定部首:</span><span class="part-chip">${wildSpecifiedBushu}</span>`;
+ } else if (topCard && topCard.type === 'SPECIAL') {
+ const spLabel = SPECIAL_BADGE_MAP[topCard.effect] || '特殊';
+ breakdownEl.innerHTML = `<span>特殊カード:</span><span class="part-chip">${spLabel}</span>`;
+ } else if (activeParts && activeParts.length > 0) {
+ const chips = activeParts.map(p => `<span class="part-chip">${p}</span>`).join('<span>＋</span>');
+ breakdownEl.innerHTML = `<span>パーツ:</span>${chips}`;
+ } else {
+ breakdownEl.innerHTML = `<span>パーツ:</span><span class="part-chip">${topCard ? topCard.value : '清'}</span>`;
+ }
+ }
+
  const msgL1 = document.getElementById('msg-line1');
  const msgL2 = document.getElementById('msg-line2');
  
@@ -2610,10 +2925,11 @@ const selectedCards = selectedIndices.map(i => players[0][i]);
  const handCount = players[0].length;
  players[0].forEach((card, idx) => {
  const isSelected = selectedIndices.includes(idx);
+ const isHinted = (idx === hintedCardIndex && turn === 0 && !isTutorialMode);
  const cardEl = document.createElement('div');
  let colorClass = (card.type === 'SPECIAL') ? 'color-special' : getBushuColorClass(card.bushu);
 
- cardEl.className = `neon-card ${colorClass} ${isSelected ? 'selected' : ''}`;
+ cardEl.className = `neon-card ${colorClass} ${isSelected ? 'selected' : ''} ${isHinted ? 'hint-card-glow' : ''}`;
  const rotate = (idx - (handCount - 1) / 2) * 3.5;
  cardEl.style.transform = `rotate(${rotate}deg)`;
  cardEl.style.zIndex = idx;
@@ -2653,6 +2969,10 @@ function toggleCardSelect(index) {
  if (turn !== 0 || isGameOver || isWildSelecting) return;
  const clickedCard = players[0][index];
  if (!clickedCard) return;
+
+ if (!isTutorialMode) {
+ restartPlayerIdleTimer();
+ }
 
  if (isTutorialMode) {
  const step = TUTORIAL_STEPS[tutorialStepIndex];
@@ -2720,6 +3040,7 @@ function triggerPenaltyWarning() {
  banner.classList.remove('hidden');
 
  selectedIndices = [];
+ hintedCardIndex = -1;
  drawCardsSmart(0, 1);
  renderUI();
 
@@ -2736,7 +3057,6 @@ function submitSelectedCards() {
  if (turn !== 0 || isGameOver || isWildSelecting || selectedIndices.length === 0) return;
  const selectedCards = selectedIndices.map(i => players[0][i]);
 
- // チュートリアルモード専用の判定（失敗してもペナルティなしで優しく案内）
  if (isTutorialMode) {
  const step = TUTORIAL_STEPS[tutorialStepIndex];
  if (step.actionType === 'PLAY_COMBO') {
@@ -2760,7 +3080,7 @@ function submitSelectedCards() {
  selectedIndices.sort((a,b) => b - a).forEach(i => players[0].splice(i, 1));
  selectedIndices = [];
  processPlayedCards(selectedCards, 0);
- turn = 0; // スキップ演出後も自分の手番を維持
+ turn = 0;
  renderUI();
  setTimeout(() => advanceTutorialStep(), 1300);
  return;
@@ -2789,6 +3109,7 @@ function submitSelectedCards() {
 
  selectedIndices.sort((a,b) => b - a).forEach(i => players[0].splice(i, 1));
  selectedIndices = [];
+ hintedCardIndex = -1;
 
  processPlayedCards(selectedCards, 0);
 
@@ -2977,7 +3298,16 @@ function scheduleCpuTurn() {
  cpuTimerId = setTimeout(executeCpuTurn, cpuSpeedMs);
 }
 
-function advanceTurn() { turn = (turn + direction + 4) % 4; }
+function advanceTurn() {
+ turn = (turn + direction + 4) % 4;
+ if (turn === 0) {
+ resetPlayerHintState();
+ } else {
+ if (playerIdleTimer) clearTimeout(playerIdleTimer);
+ const hintBtn = document.getElementById('btn-hint');
+ if (hintBtn) hintBtn.classList.remove('idle-nudge');
+ }
+}
 
 function drawCardsSmart(playerIdx, count) {
  const hand = players[playerIdx];
@@ -3055,6 +3385,8 @@ function drawFromDeckPlayer() {
  setTimeout(() => advanceTutorialStep(), 550);
  return;
  }
+
+ resetPlayerHintState();
  
 if (pendingDrawCount > 0) {
  const hitAmount = pendingDrawCount;
