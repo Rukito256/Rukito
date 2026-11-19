@@ -201,8 +201,8 @@ font-weight: bold; color: #111827; position: relative; border: 2.5px solid #ffff
  background: linear-gradient(135deg, #0284c7 0%, #00d8ff 100%);
  }
 
- .char-avatar-img { width: 100% !important; height: 100% !important; object-fit: cover !important; pointer-events: none; position: static !important; transform: none !important; }
- .avatar-fallback-text { font-size: 14px; font-weight: 900; color: #fff; text-align: center; width: 100%; }
+ .char-avatar-img { width: 100% !important; height: 100% !important; object-fit: cover !important; pointer-events: none; position: static !important; transform: none !important; display: block; }
+ .avatar-fallback-svg { width: 100%; height: 100%; display: block; }
 
  .cpu1-theme .cpu-badge { background: linear-gradient(90deg, #dc2626 0%, #ef4444 100%); border-color: #fca5a5; box-shadow: 0 0 12px #ef4444; }
  .cpu2-theme .cpu-badge { background: linear-gradient(90deg, #1d4ed8 0%, #3b82f6 100%); border-color: #93c5fd; box-shadow: 0 0 12px #3b82f6; }
@@ -792,7 +792,6 @@ position: absolute;
  }
  .zukan-kanji-card:hover { transform: scale(1.08); z-index: 10; }
  .zukan-kanji-card.unlocked { background: linear-gradient(135deg, #fef08a 0%, #eab308 100%); border-color: #fff; }
- /* 未発見カードも押してヒントを見られるように cursor: pointer に変更 */
  .zukan-kanji-card.locked { background: #334155 !important; border-color: #64748b !important; opacity: 0.85; cursor: pointer; }
  .zukan-kanji-card.locked:hover { border-color: #38bdf8 !important; opacity: 1; }
 
@@ -812,7 +811,6 @@ position: absolute;
 
  .detail-card-top { display: flex; gap: 16px; align-items: center; width: 100%; }
  .detail-kanji-box { width: 80px; height: 80px; background: linear-gradient(135deg, #fef08a 0%, #f59e0b 100%); border: 3px solid #fff; border-radius: 14px; display: flex; justify-content: center; align-items: center; font-size: 46px; font-weight: 900; color: #0f172a; font-family: 'Kozuka Mincho Pro', 'Yu Mincho', serif; box-shadow: 0 0 12px rgba(245, 158, 11, 0.6); flex-shrink: 0; }
- /* ヒント表示時の漢字ボックススタイル */
  .detail-kanji-box.hint-box { background: linear-gradient(135deg, #3b82f6 0%, #1e3a8a 100%); color: #ffffff; box-shadow: 0 0 12px rgba(56, 189, 248, 0.6); }
 
  .detail-info-group { display: flex; flex-direction: column; gap: 6px; text-align: left; flex-grow: 1; }
@@ -994,7 +992,7 @@ position: absolute;
  <div class="cpu-profile-box cpu1-theme" id="profile-cpu1">
  <div class="cpu-badge">
  <div class="avatar-container" id="avatar-box-cpu1">
- <img id="img-cpu1" class="char-avatar-img" alt="CPU1" onerror="handleImageError(this, '🤖1')">
+ <img id="img-cpu1" class="char-avatar-img" src="photo/CPU1.png" alt="CPU1" onerror="handleImageError(this, 'cpu1')">
  </div>
  <span>CPU1</span>
  <span id="count-cpu1">7枚</span>
@@ -1005,7 +1003,7 @@ position: absolute;
  <div class="cpu-profile-box cpu2-theme" id="profile-cpu2">
  <div class="cpu-badge">
  <div class="avatar-container" id="avatar-box-cpu2">
- <img id="img-cpu2" class="char-avatar-img" alt="CPU2" onerror="handleImageError(this, '🤖2')">
+ <img id="img-cpu2" class="char-avatar-img" src="photo/CPU2.png" alt="CPU2" onerror="handleImageError(this, 'cpu2')">
  </div>
  <span>CPU2</span>
  <span id="count-cpu2">7枚</span>
@@ -1016,7 +1014,7 @@ position: absolute;
  <div class="cpu-profile-box cpu3-theme" id="profile-cpu3">
  <div class="cpu-badge">
  <div class="avatar-container" id="avatar-box-cpu3">
- <img id="img-cpu3" class="char-avatar-img" alt="CPU3" onerror="handleImageError(this, '🤖3')">
+ <img id="img-cpu3" class="char-avatar-img" src="photo/CPU3.png" alt="CPU3" onerror="handleImageError(this, 'cpu3')">
  </div>
  <span>CPU3</span>
  <span id="count-cpu3">7枚</span>
@@ -1064,7 +1062,7 @@ position: absolute;
  <div class="player-avatar-circle">
  <span class="crown-icon">👑</span>
  <div class="avatar-container player-avatar" id="avatar-box-player">
- <img id="img-player" class="char-avatar-img" alt="プレイヤー" onerror="handleImageError(this, '👤')">
+ <img id="img-player" class="char-avatar-img" src="photo/player.png" alt="プレイヤー" onerror="handleImageError(this, 'player')">
  </div>
  </div>
  <div class="player-info-text">
@@ -1093,7 +1091,7 @@ position: absolute;
  <div class="how-to-banner-right">
  <div class="how-to-banner-txt">パーツをつなげて<br><ruby>漢字<rt>かんじ</rt></ruby>を作ろう！</div>
  <div class="how-to-banner-avatar" id="avatar-box-howto-header">
- <img id="img-howto-header-char" class="char-avatar-img" src="" alt="キャラ" onerror="handleImageError(this, '👤')">
+ <img id="img-howto-header-char" class="char-avatar-img" src="photo/player.png" alt="キャラ" onerror="handleImageError(this, 'player')">
  </div>
  </div>
  </div>
@@ -1128,7 +1126,7 @@ position: absolute;
 
  <div class="char-comment-box">
  <div class="char-comment-avatar" id="avatar-box-howto-c1">
- <img id="img-howto-c1-char" class="char-avatar-img" src="" alt="キャラ1" onerror="handleImageError(this, '👤')">
+ <img id="img-howto-c1-char" class="char-avatar-img" src="photo/player.png" alt="キャラ1" onerror="handleImageError(this, 'player')">
  </div>
  <div class="char-comment-txt">パーツをつなげると<br>ひとつの漢字になるよ！</div>
  </div>
@@ -1154,7 +1152,7 @@ position: absolute;
 
  <div class="char-comment-box" style="border-color:#38bdf8;">
  <div class="char-comment-avatar" id="avatar-box-howto-c2" style="border-color:#38bdf8;">
- <img id="img-howto-c2-char" class="char-avatar-img" src="" alt="キャラ2" onerror="handleImageError(this, '🤖1')">
+ <img id="img-howto-c2-char" class="char-avatar-img" src="photo/CPU1.png" alt="キャラ2" onerror="handleImageError(this, 'cpu1')">
  </div>
  <div class="char-comment-txt" style="color:#a5f3fc;">同じ色か同じパーツで<br>カードをつなげよう！</div>
  </div>
@@ -1276,7 +1274,6 @@ position: absolute;
  <span class="res-speech-txt2" id="res-speech-main">1位だよ！</span>
  </div>
  <div class="res-winner-avatar-circle" id="res-winner-avatar-box">
- <!-- 勝者アバターが動的に生成されます -->
  </div>
  </div>
  </div>
@@ -1298,7 +1295,7 @@ position: absolute;
  </div>
  </div>
 
- <!-- ワイルド部首 Modal ( z-index 900 で他操作をブロック ) -->
+ <!-- ワイルド部首 Modal -->
  <div class="modal-overlay hidden" id="wild-modal" style="z-index: 900;">
  <div class="modal-content" style="width: 320px;">
  <h3 class="modal-title"><ruby>変更<rt>へんこう</rt></ruby>する<ruby>部首<rt>ぶしゅ</rt></ruby>を選んでください</h3>
@@ -1332,8 +1329,7 @@ function fitGameToScreen() {
  const scaleX = windowWidth / baseWidth;
  const scaleY = windowHeight / baseHeight;
  
-// 画面に収まる限界までスケール（最大1.6倍）
- const scale = Math.min(scaleX, scaleY, 1.6);
+const scale = Math.min(scaleX, scaleY, 1.6);
 
  container.style.transform = `scale(${scale})`;
 }
@@ -1481,6 +1477,7 @@ const unlockAndPlayAudio = () => {
 window.addEventListener('click', unlockAndPlayAudio, { once: true });
 window.addEventListener('touchstart', unlockAndPlayAudio, { once: true });
 
+/* 外部画像パス（photo/フォルダ内のPNG） */
 const AVATAR_DATA = {
  player: 'photo/player.png',
  cpu1: 'photo/CPU1.png',
@@ -1488,18 +1485,56 @@ const AVATAR_DATA = {
  cpu3: 'photo/CPU3.png'
 };
 
-/* 画像エラー時のフォールバック処理 */
-function handleImageError(imgEl, fallbackText) {
+/* 画像が存在しない環境でもキャラクターが表示されるSVGイラストデータ */
+const FALLBACK_SVG_MAP = {
+ player: `<svg class="avatar-fallback-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+ <rect width="100" height="100" fill="#0284c7"/>
+ <circle cx="50" cy="40" r="22" fill="#fde047"/>
+ <path d="M28 36 Q50 10 72 36" fill="#1e293b"/>
+ <circle cx="43" cy="40" r="3" fill="#0f172a"/>
+ <circle cx="57" cy="40" r="3" fill="#0f172a"/>
+ <path d="M44 48 Q50 54 56 48" stroke="#ef4444" stroke-width="3" fill="none" stroke-linecap="round"/>
+ <path d="M20 95 Q50 68 80 95" fill="#38bdf8"/>
+ </svg>`,
+ cpu1: `<svg class="avatar-fallback-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+ <rect width="100" height="100" fill="#b91c1c"/>
+ <rect x="26" y="28" width="48" height="38" rx="10" fill="#e2e8f0" stroke="#f87171" stroke-width="3"/>
+ <line x1="50" y1="14" x2="50" y2="28" stroke="#fde047" stroke-width="4"/>
+ <circle cx="50" cy="12" r="5" fill="#fde047"/>
+ <circle cx="40" cy="44" r="5" fill="#ef4444"/>
+ <circle cx="60" cy="44" r="5" fill="#ef4444"/>
+ <rect x="38" y="55" width="24" height="4" rx="2" fill="#0f172a"/>
+ <path d="M22 95 L32 70 L68 70 L78 95 Z" fill="#ef4444"/>
+ </svg>`,
+ cpu2: `<svg class="avatar-fallback-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+ <rect width="100" height="100" fill="#1d4ed8"/>
+ <rect x="26" y="28" width="48" height="38" rx="14" fill="#dbeafe" stroke="#60a5fa" stroke-width="3"/>
+ <line x1="36" y1="16" x2="40" y2="28" stroke="#38bdf8" stroke-width="3"/>
+ <line x1="64" y1="16" x2="60" y2="28" stroke="#38bdf8" stroke-width="3"/>
+ <rect x="34" y="40" width="32" height="10" rx="5" fill="#1e3a8a"/>
+ <circle cx="42" cy="45" r="3" fill="#38bdf8"/>
+ <circle cx="58" cy="45" r="3" fill="#38bdf8"/>
+ <path d="M22 95 L32 70 L68 70 L78 95 Z" fill="#3b82f6"/>
+ </svg>`,
+ cpu3: `<svg class="avatar-fallback-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+ <rect width="100" height="100" fill="#047857"/>
+ <circle cx="50" cy="46" r="24" fill="#d1fae5" stroke="#34d399" stroke-width="3"/>
+ <polygon points="50,14 42,24 58,24" fill="#fde047"/>
+ <circle cx="41" cy="44" r="4" fill="#059669"/>
+ <circle cx="59" cy="44" r="4" fill="#059669"/>
+ <path d="M42 54 Q50 60 58 54" stroke="#065f46" stroke-width="3" fill="none" stroke-linecap="round"/>
+ <path d="M22 95 L32 72 L68 72 L78 95 Z" fill="#10b981"/>
+ </svg>`
+};
+
+/* 画像読み込みエラー時にSVGキャラクターを表示する処理 */
+function handleImageError(imgEl, charKey) {
  const container = imgEl.parentElement;
  if (container) {
  imgEl.style.display = 'none';
- let fallback = container.querySelector('.avatar-fallback-text');
- if (!fallback) {
- fallback = document.createElement('span');
- fallback.className = 'avatar-fallback-text';
- container.appendChild(fallback);
+ if (!container.querySelector('.avatar-fallback-svg')) {
+ container.insertAdjacentHTML('beforeend', FALLBACK_SVG_MAP[charKey] || FALLBACK_SVG_MAP.player);
  }
- fallback.innerText = fallbackText;
  }
 }
 
@@ -1507,7 +1542,6 @@ function setupCharacterAvatars() {
  const setSrc = (id, src) => {
  const el = document.getElementById(id);
  if (el) {
- el.style.display = 'block';
  el.src = src;
  }
  };
@@ -1523,7 +1557,6 @@ function setupCharacterAvatars() {
 
 /* 全65個の漢字データベース */
 const KANJI_MASTER_POOL = [
- // 氵（さんずい）13個
  { kanji: '湯', yomi: 'トウ', parts: ['氵', '昜'], bushu: '氵' },
  { kanji: '油', yomi: 'ユ', parts: ['氵', '由'], bushu: '氵' },
  { kanji: '注', yomi: 'チュウ', parts: ['氵', '主'], bushu: '氵' },
@@ -1538,13 +1571,11 @@ const KANJI_MASTER_POOL = [
  { kanji: '法', yomi: 'ホウ', parts: ['氵', '去'], bushu: '氵' },
  { kanji: '沖', yomi: 'チュウ', parts: ['氵', '中'], bushu: '氵' },
 
- // 扌（てへん）4個
  { kanji: '拾', yomi: 'シュウ・ジュウ', parts: ['扌', '合'], bushu: '扌' },
  { kanji: '持', yomi: 'ジ', parts: ['扌', '寺'], bushu: '扌' },
  { kanji: '打', yomi: 'ダ', parts: ['扌', '丁'], bushu: '扌' },
  { kanji: '折', yomi: 'セツ', parts: ['扌', '斤'], bushu: '扌' },
 
- // 木（きへん）9個
  { kanji: '柱', yomi: 'チュウ', parts: ['木', '主'], bushu: '木' },
  { kanji: '板', yomi: 'ハン・バン', parts: ['木', '反'], bushu: '木' },
  { kanji: '横', yomi: 'オウ', parts: ['木', '黄'], bushu: '木' },
@@ -1555,7 +1586,6 @@ const KANJI_MASTER_POOL = [
  { kanji: '梅', yomi: 'バイ', parts: ['木', '毎'], bushu: '木' },
  { kanji: '松', yomi: 'ショウ', parts: ['木', '公'], bushu: '木' },
 
- // 亻（にんべん）14個
  { kanji: '仕', yomi: 'シ', parts: ['亻', '士'], bushu: '亻' },
  { kanji: '使', yomi: 'シ', parts: ['亻', '吏'], bushu: '亻' },
  { kanji: '住', yomi: 'ジュウ', parts: ['亻', '主'], bushu: '亻' },
@@ -1571,7 +1601,6 @@ const KANJI_MASTER_POOL = [
  { kanji: '仲', yomi: 'チュウ', parts: ['亻', '中'], bushu: '亻' },
  { kanji: '例', yomi: 'レイ', parts: ['亻', '列'], bushu: '亻' },
 
- // 言（ごんべん）8個
  { kanji: '談', yomi: 'ダン', parts: ['言', '炎'], bushu: '言' },
  { kanji: '詩', yomi: 'シ', parts: ['言', '寺'], bushu: '言' },
  { kanji: '調', yomi: 'チョウ', parts: ['言', '周'], bushu: '言' },
@@ -1581,7 +1610,6 @@ const KANJI_MASTER_POOL = [
  { kanji: '課', yomi: 'カ', parts: ['言', '果'], bushu: '言' },
  { kanji: '議', yomi: 'ギ', parts: ['言', '義'], bushu: '言' },
 
- // 禾（のぎへん）6個
  { kanji: '秒', yomi: 'ビョウ', parts: ['禾', '少'], bushu: '禾' },
  { kanji: '和', yomi: 'ワ・カン', parts: ['禾', '口'], bushu: '禾' },
  { kanji: '秋', yomi: 'シュウ', parts: ['禾', '火'], bushu: '禾' },
@@ -1589,14 +1617,12 @@ const KANJI_MASTER_POOL = [
  { kanji: '積', yomi: 'セキ', parts: ['禾', '責'], bushu: '禾' },
  { kanji: '種', yomi: 'シュ', parts: ['禾', '重'], bushu: '禾' },
 
- // 宀（うかんむり）5個
  { kanji: '安', yomi: 'アン', parts: ['宀', '女'], bushu: '宀' },
  { kanji: '客', yomi: 'キャク・カク', parts: ['宀', '各'], bushu: '宀' },
  { kanji: '宮', yomi: 'キュウ・グウ', parts: ['宀', '呂'], bushu: '宀' },
  { kanji: '守', yomi: 'シュ・ス', parts: ['宀', '寸'], bushu: '宀' },
  { kanji: '完', yomi: 'カン', parts: ['宀', '元'], bushu: '宀' },
 
- // 竹（たけかんむり）6個
  { kanji: '等', yomi: 'トウ', parts: ['竹', '寺'], bushu: '竹' },
  { kanji: '箱', yomi: 'ソウ', parts: ['竹', '相'], bushu: '竹' },
  { kanji: '笛', yomi: 'テキ', parts: ['竹', '由'], bushu: '竹' },
@@ -1660,7 +1686,6 @@ function submitInitialPlayerName(event) {
 const FOUR_COLORS = ['color-green', 'color-blue', 'color-red', 'color-yellow'];
 let BUSHU_COLOR_MAP = {};
 
-/* 各色のカード総枚数が均等（約18〜20枚ずつ）になるよう最適化した部首・色割り当て処理 */
 function randomizeBushuColors() {
  const largeGroups = ['氵', '亻', '木'].sort(() => Math.random() - 0.5);
  const midGroups = ['言', '扌'].sort(() => Math.random() - 0.5);
@@ -1690,7 +1715,6 @@ function getBushuColorClass(bushuKey) {
  return BUSHU_COLOR_MAP[bushuKey] || 'color-green';
 }
 
-/* 特殊カードの左上バッジ表記設定 */
 const SPECIAL_BADGE_MAP = {
  'SKIP': 'スキップ',
  'REVERSE': 'リバース',
@@ -1732,7 +1756,6 @@ let bushuDeclared = [false, false, false, false];
 let pendingDrawCount = 0;
 let cpuTimerId = null;
 
-/* ワイルドカード選択中の完全ロックフラグ */
 let isWildSelecting = false;
 
 let cpuSpeedMs = 1800;
@@ -1819,7 +1842,6 @@ function renderZukanGrid() {
  if (isUnlocked) {
  cardEl.onclick = () => selectZukanKanjiDetail(item);
  } else {
- // 未発見の漢字を押したらヒントを表示
  cardEl.onclick = () => selectZukanKanjiHint(item);
  }
  gridEl.appendChild(cardEl);
@@ -1866,7 +1888,6 @@ const kanjiBox = document.getElementById('detail-kanji-char');
  document.getElementById('detail-combine-flow').innerHTML = flowHtml;
 }
 
-/* 未発見の漢字を押した際のヒント表示処理 */
 function selectZukanKanjiHint(item) {
  selectedZukanKanji = item;
  document.getElementById('detail-empty-area').classList.add('hidden');
@@ -1882,7 +1903,7 @@ function selectZukanKanjiHint(item) {
  document.getElementById('detail-kanji-imi').innerText = `「${item.bushu}」のなかま`;
 
  document.getElementById('detail-combine-label').innerHTML = `組み合わせヒント（全${item.parts.length}パーツ）`;
- let hintPartsHtml = item.parts.map((p, idx) => {
+ let hintPartsHtml = item.parts.map((p) => {
  if (p === item.bushu) {
  return `<span class="mini-part-badge">${p}</span>`;
  } else {
@@ -2431,7 +2452,6 @@ function checkAndAutoProcessPlayerDraw() {
  }
 }
 
-/* プレイヤーが山札から引く処理 */
 function drawFromDeckPlayer() {
  if (turn !== 0 || isGameOver || isWildSelecting) return;
  
@@ -2661,13 +2681,11 @@ function showResultModal(rankingList, isTimeUp = false) {
  speechSubEl.innerText = isPlayerWinner ? "やったね！" : "お疲れ様！";
  speechMainEl.innerText = `1位だよ！`;
 
- // 勝者のアバターアイコン描画（画像エラー時も確実にフォールバック文字を表示）
  const winnerAvatarKey = PLAYER_AVATAR_KEYS[winnerIdx];
  const winnerName = PLAYER_NAMES[winnerIdx];
- const fallbackChar = isPlayerWinner ? '👤' : `🤖${winnerIdx}`;
 
  winnerAvatarBox.innerHTML = `
- <img class="char-avatar-img" src="${AVATAR_DATA[winnerAvatarKey]}" alt="${winnerName}" onerror="handleImageError(this, '${fallbackChar}')">
+ <img class="char-avatar-img" src="${AVATAR_DATA[winnerAvatarKey]}" alt="${winnerName}" onerror="handleImageError(this, '${winnerAvatarKey}')">
  `;
 
  cardsFlexEl.innerHTML = '';
@@ -2678,7 +2696,7 @@ function showResultModal(rankingList, isTimeUp = false) {
  const rankNum = index + 1;
  const pIdx = item.playerIdx;
  const pName = PLAYER_NAMES[pIdx];
- const itemFallback = (pIdx === 0) ? '👤' : `🤖${pIdx}`;
+ const avatarKey = PLAYER_AVATAR_KEYS[pIdx];
 
  const cardDiv = document.createElement('div');
  cardDiv.className = `res-card-item ${rankClasses[index] || 'res-card-rank4'}`;
@@ -2688,7 +2706,7 @@ function showResultModal(rankingList, isTimeUp = false) {
  cardDiv.innerHTML = `
  <div class="res-rank-badge">${rankIcons[index]}</div>
  <div class="res-avatar-wrapper">
- <img class="char-avatar-img" src="${AVATAR_DATA[PLAYER_AVATAR_KEYS[pIdx]]}" alt="${pName}" onerror="handleImageError(this, '${itemFallback}')">
+ <img class="char-avatar-img" src="${AVATAR_DATA[avatarKey]}" alt="${pName}" onerror="handleImageError(this, '${avatarKey}')">
  </div>
  <div class="res-name-tag">${pName}</div>
  <div class="res-card-count-box">
