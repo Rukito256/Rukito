@@ -992,7 +992,7 @@ position: absolute;
  <div class="cpu-profile-box cpu1-theme" id="profile-cpu1">
  <div class="cpu-badge">
  <div class="avatar-container" id="avatar-box-cpu1">
- <img id="img-cpu1" class="char-avatar-img" src="photo/CPU1.png" alt="CPU1" onerror="handleImageError(this, 'cpu1')">
+ <img id="img-cpu1" class="char-avatar-img" src="images/CPU1.png" alt="CPU1" onerror="handleImageError(this, 'cpu1')">
  </div>
  <span>CPU1</span>
  <span id="count-cpu1">7枚</span>
@@ -1003,7 +1003,7 @@ position: absolute;
  <div class="cpu-profile-box cpu2-theme" id="profile-cpu2">
  <div class="cpu-badge">
  <div class="avatar-container" id="avatar-box-cpu2">
- <img id="img-cpu2" class="char-avatar-img" src="photo/CPU2.png" alt="CPU2" onerror="handleImageError(this, 'cpu2')">
+ <img id="img-cpu2" class="char-avatar-img" src="images/CPU2.png" alt="CPU2" onerror="handleImageError(this, 'cpu2')">
  </div>
  <span>CPU2</span>
  <span id="count-cpu2">7枚</span>
@@ -1014,7 +1014,7 @@ position: absolute;
  <div class="cpu-profile-box cpu3-theme" id="profile-cpu3">
  <div class="cpu-badge">
  <div class="avatar-container" id="avatar-box-cpu3">
- <img id="img-cpu3" class="char-avatar-img" src="photo/CPU3.png" alt="CPU3" onerror="handleImageError(this, 'cpu3')">
+ <img id="img-cpu3" class="char-avatar-img" src="images/CPU3.png" alt="CPU3" onerror="handleImageError(this, 'cpu3')">
  </div>
  <span>CPU3</span>
  <span id="count-cpu3">7枚</span>
@@ -1062,7 +1062,7 @@ position: absolute;
  <div class="player-avatar-circle">
  <span class="crown-icon">👑</span>
  <div class="avatar-container player-avatar" id="avatar-box-player">
- <img id="img-player" class="char-avatar-img" src="photo/player.png" alt="プレイヤー" onerror="handleImageError(this, 'player')">
+ <img id="img-player" class="char-avatar-img" src="images/player.png" alt="プレイヤー" onerror="handleImageError(this, 'player')">
  </div>
  </div>
  <div class="player-info-text">
@@ -1091,7 +1091,7 @@ position: absolute;
  <div class="how-to-banner-right">
  <div class="how-to-banner-txt">パーツをつなげて<br><ruby>漢字<rt>かんじ</rt></ruby>を作ろう！</div>
  <div class="how-to-banner-avatar" id="avatar-box-howto-header">
- <img id="img-howto-header-char" class="char-avatar-img" src="photo/player.png" alt="キャラ" onerror="handleImageError(this, 'player')">
+ <img id="img-howto-header-char" class="char-avatar-img" src="images/player.png" alt="キャラ" onerror="handleImageError(this, 'player')">
  </div>
  </div>
  </div>
@@ -1126,7 +1126,7 @@ position: absolute;
 
  <div class="char-comment-box">
  <div class="char-comment-avatar" id="avatar-box-howto-c1">
- <img id="img-howto-c1-char" class="char-avatar-img" src="photo/player.png" alt="キャラ1" onerror="handleImageError(this, 'player')">
+ <img id="img-howto-c1-char" class="char-avatar-img" src="images/player.png" alt="キャラ1" onerror="handleImageError(this, 'player')">
  </div>
  <div class="char-comment-txt">パーツをつなげると<br>ひとつの漢字になるよ！</div>
  </div>
@@ -1152,7 +1152,7 @@ position: absolute;
 
  <div class="char-comment-box" style="border-color:#38bdf8;">
  <div class="char-comment-avatar" id="avatar-box-howto-c2" style="border-color:#38bdf8;">
- <img id="img-howto-c2-char" class="char-avatar-img" src="photo/CPU1.png" alt="キャラ2" onerror="handleImageError(this, 'cpu1')">
+ <img id="img-howto-c2-char" class="char-avatar-img" src="images/CPU1.png" alt="キャラ2" onerror="handleImageError(this, 'cpu1')">
  </div>
  <div class="char-comment-txt" style="color:#a5f3fc;">同じ色か同じパーツで<br>カードをつなげよう！</div>
  </div>
@@ -1477,12 +1477,12 @@ const unlockAndPlayAudio = () => {
 window.addEventListener('click', unlockAndPlayAudio, { once: true });
 window.addEventListener('touchstart', unlockAndPlayAudio, { once: true });
 
-/* 外部画像パス（photo/フォルダ内のPNG） */
+/* 外部画像パス（images/フォルダ内のPNG） */
 const AVATAR_DATA = {
- player: 'photo/player.png',
- cpu1: 'photo/CPU1.png',
- cpu2: 'photo/CPU2.png',
- cpu3: 'photo/CPU3.png'
+ player: 'images/player.png',
+ cpu1: 'images/CPU1.png',
+ cpu2: 'images/CPU2.png',
+ cpu3: 'images/CPU3.png'
 };
 
 /* 画像が存在しない環境でもキャラクターが表示されるSVGイラストデータ */
