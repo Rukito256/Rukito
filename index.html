@@ -160,15 +160,23 @@ font-weight: bold; color: #111827; position: relative; border: 2.5px solid #ffff
  }
  .btn-game-start:hover { transform: scale(1.06); }
 
- .sub-menu { display: flex; gap: 10px; }
+ .sub-menu { display: flex; gap: 8px; }
  .icon-btn {
- background: rgba(15, 23, 42, 0.85); border: 2px solid #38bdf8; border-radius: 12px; width: 48px; height: 48px;
+ background: rgba(15, 23, 42, 0.85); border: 2px solid #38bdf8; border-radius: 12px; width: 54px; height: 50px;
  display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; cursor: pointer;
  box-shadow: 0 0 10px rgba(56, 189, 248, 0.5); transition: all 0.2s ease;
  }
  .icon-btn:hover { background: #38bdf8; color: #0f1123; transform: translateY(-3px); }
- .icon-btn .icon { font-size: 18px; }
- .icon-btn .label { font-size: 9px; font-weight: bold; margin-top: 1px; }
+ .icon-btn.tutorial-btn-accent {
+ border-color: #fbbf24;
+ box-shadow: 0 0 12px rgba(251, 191, 36, 0.65);
+ }
+ .icon-btn.tutorial-btn-accent:hover {
+ background: #fbbf24;
+ color: #0f1123;
+ }
+ .icon-btn .icon { font-size: 17px; }
+ .icon-btn .label { font-size: 8.5px; font-weight: bold; margin-top: 2px; white-space: nowrap; }
 
  /* 対戦UI トップエリア */
  .top-section { display: flex; justify-content: space-between; align-items: flex-start; width: 100%; z-index: 20; }
@@ -267,7 +275,7 @@ font-weight: bold; color: #111827; position: relative; border: 2.5px solid #ffff
 
  .right-control-group { display: flex; flex-direction: column; align-items: center; gap: 14px; }
 
- .deck-neon-stack { display: flex; flex-direction: column; align-items: center; cursor: pointer; }
+ .deck-neon-stack { display: flex; flex-direction: column; align-items: center; cursor: pointer; position: relative; }
  .deck-card-visual {
  width: 62px; height: 76px; background: linear-gradient(135deg, #1d4ed8 0%, #1e3a8a 100%);
  border: 2.5px solid #00f0ff; box-shadow: 0 0 15px #00f0ff; border-radius: 10px;
@@ -464,6 +472,118 @@ font-weight: bold; color: #111827; position: relative; border: 2.5px solid #ffff
  100% { transform: translateX(-50%) scale(1); opacity: 1; }
  }
 
+ /* =========================================
+    チュートリアル専用 UI & ハイライト演出
+ ========================================= */
+ .tutorial-highlight {
+ animation: tutPulse 0.9s infinite alternate !important;
+ box-shadow: 0 0 0 4px #fde047, 0 0 25px #fde047, 0 0 40px #f59e0b !important;
+ border-color: #fde047 !important;
+ z-index: 110 !important;
+ }
+ @keyframes tutPulse {
+ 0% { filter: brightness(1); }
+ 100% { filter: brightness(1.25); }
+ }
+
+ #tutorial-guide-panel {
+ position: absolute;
+ top: 6px;
+ left: 50%;
+ transform: translateX(-50%);
+ width: 650px;
+ background: linear-gradient(135deg, rgba(15, 23, 42, 0.96) 0%, rgba(30, 27, 75, 0.96) 100%);
+ border: 2.5px solid #fbbf24;
+ border-radius: 18px;
+ box-shadow: 0 8px 30px rgba(0, 0, 0, 0.85), 0 0 20px rgba(251, 191, 36, 0.65);
+ padding: 8px 14px;
+ display: flex;
+ align-items: center;
+ gap: 12px;
+ z-index: 420;
+ }
+ .tut-guide-avatar {
+ width: 48px;
+ height: 48px;
+ border-radius: 50%;
+ border: 2.5px solid #38bdf8;
+ box-shadow: 0 0 10px #38bdf8;
+ overflow: hidden;
+ flex-shrink: 0;
+ background: #0284c7;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ }
+ .tut-guide-body {
+ flex-grow: 1;
+ display: flex;
+ flex-direction: column;
+ gap: 3px;
+ text-align: left;
+ }
+ .tut-step-header {
+ display: flex;
+ align-items: center;
+ gap: 8px;
+ }
+ .tut-step-badge {
+ background: linear-gradient(90deg, #f59e0b 0%, #d97706 100%);
+ color: #ffffff;
+ font-size: 10px;
+ font-weight: 900;
+ padding: 2px 8px;
+ border-radius: 10px;
+ border: 1px solid #fef08a;
+ }
+ .tut-step-title {
+ font-size: 13px;
+ font-weight: 900;
+ color: #fde047;
+ }
+ .tut-step-desc {
+ font-size: 11.5px;
+ font-weight: bold;
+ color: #f8fafc;
+ line-height: 1.35;
+ }
+ .tut-step-desc em {
+ font-style: normal;
+ color: #38bdf8;
+ text-decoration: underline;
+ }
+ .tut-guide-actions {
+ display: flex;
+ flex-direction: column;
+ gap: 5px;
+ flex-shrink: 0;
+ }
+ .btn-tut-next {
+ background: linear-gradient(90deg, #ec4899 0%, #38bdf8 100%);
+ color: #ffffff;
+ font-size: 12px;
+ font-weight: 900;
+ padding: 6px 14px;
+ border-radius: 16px;
+ border: 2px solid #ffffff;
+ cursor: pointer;
+ box-shadow: 0 0 12px rgba(56, 189, 248, 0.7);
+ white-space: nowrap;
+ }
+ .btn-tut-next:hover { transform: scale(1.05); }
+ .btn-tut-exit {
+ background: rgba(51, 65, 85, 0.9);
+ color: #cbd5e1;
+ font-size: 10px;
+ font-weight: bold;
+ padding: 3px 10px;
+ border-radius: 12px;
+ border: 1px solid #64748b;
+ cursor: pointer;
+ white-space: nowrap;
+ }
+ .btn-tut-exit:hover { background: #475569; color: #fff; }
+
  /* リザルト画面 Modal */
  .result-festive-overlay {
  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -640,6 +760,75 @@ font-weight: bold; color: #111827; position: relative; border: 2.5px solid #ffff
  .modal-content { background: #1f2937; border: 2px solid #3b82f6; box-shadow: 0 0 20px #3b82f6; border-radius: 12px; padding: 20px; width: 85%; max-height: 85%; overflow-y: auto; color: #f3f4f6; text-align: center; }
  .modal-title { font-size: 20px; margin-bottom: 8px; color: #f59e0b; }
 
+ /* 初回チュートリアル案内ポップアップ */
+ .welcome-tut-card {
+ background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);
+ border: 3px solid #fbbf24;
+ box-shadow: 0 0 30px rgba(251, 191, 36, 0.65), inset 0 0 15px rgba(56, 189, 248, 0.3);
+ border-radius: 24px;
+ padding: 22px 28px;
+ width: 460px;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ gap: 14px;
+ text-align: center;
+ }
+ .welcome-tut-avatar {
+ width: 64px;
+ height: 64px;
+ border-radius: 50%;
+ border: 3px solid #38bdf8;
+ box-shadow: 0 0 15px #38bdf8;
+ overflow: hidden;
+ background: #0284c7;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ }
+ .welcome-tut-title {
+ font-size: 21px;
+ font-weight: 900;
+ color: #fde047;
+ text-shadow: 0 0 10px rgba(253, 224, 71, 0.6);
+ }
+ .welcome-tut-desc {
+ font-size: 13px;
+ font-weight: bold;
+ color: #e2e8f0;
+ line-height: 1.5;
+ }
+ .welcome-tut-btns {
+ display: flex;
+ gap: 14px;
+ margin-top: 4px;
+ }
+ .btn-welcome-yes {
+ background: linear-gradient(90deg, #ec4899 0%, #38bdf8 100%);
+ color: #ffffff;
+ font-size: 15px;
+ font-weight: 900;
+ padding: 10px 24px;
+ border-radius: 25px;
+ border: 2.5px solid #ffffff;
+ box-shadow: 0 0 18px rgba(236, 72, 153, 0.7);
+ cursor: pointer;
+ transition: transform 0.2s;
+ }
+ .btn-welcome-yes:hover { transform: scale(1.05); }
+ .btn-welcome-no {
+ background: #334155;
+ color: #cbd5e1;
+ font-size: 13px;
+ font-weight: bold;
+ padding: 10px 20px;
+ border-radius: 25px;
+ border: 1.5px solid #64748b;
+ cursor: pointer;
+ transition: all 0.2s;
+ }
+ .btn-welcome-no:hover { background: #475569; color: #ffffff; }
+
  /* 遊び方モーダル UI */
  .how-to-modal-overlay {
  background: radial-gradient(ellipse at 50% 30%, #17103f 0%, #08041d 100%);
@@ -759,7 +948,7 @@ position: absolute;
  .win-cond-title { font-size: 11px; font-weight: 900; color: #fbbf24; display: flex; align-items: center; gap: 4px; }
  .win-ranks-row { display: flex; justify-content: space-around; font-size: 9.5px; font-weight: bold; color: #e2e8f0; }
 
- .how-to-footer { display: flex; justify-content: flex-start; width: 100%; height: 36px; }
+ .how-to-footer { display: flex; justify-content: space-between; align-items: center; width: 100%; height: 36px; }
 
  /* 漢字図鑑 Modal */
  #zukan-modal-container {
@@ -840,6 +1029,43 @@ position: absolute;
 <body>
 
 <div id="game-container">
+
+ <!-- チュートリアルガイドパネル -->
+ <div id="tutorial-guide-panel" class="hidden">
+ <div class="tut-guide-avatar">
+ <img id="img-tut-guide-char" class="char-avatar-img" src="images/player.png" alt="ガイド" onerror="handleImageError(this, 'player')">
+ </div>
+ <div class="tut-guide-body">
+ <div class="tut-step-header">
+ <span class="tut-step-badge" id="tut-step-badge">STEP 1 / 7</span>
+ <span class="tut-step-title" id="tut-step-title">パーツを合体させて漢字を作ろう！</span>
+ </div>
+ <div class="tut-step-desc" id="tut-step-desc">手札の「氵」と「青」をタップして選び、「カードを確定」を押してみよう！</div>
+ </div>
+ <div class="tut-guide-actions">
+ <button class="btn-tut-next hidden" id="btn-tut-next" onclick="advanceTutorialStep()">次へ ➔</button>
+ <button class="btn-tut-exit" onclick="exitTutorialMode()">練習を終了</button>
+ </div>
+ </div>
+
+ <!-- 初回チュートリアル案内モーダル -->
+ <div class="modal-overlay hidden" id="welcome-tut-modal" style="z-index: 650;">
+ <div class="welcome-tut-card">
+ <div class="welcome-tut-avatar">
+ <img id="img-welcome-tut-char" class="char-avatar-img" src="images/player.png" alt="ガイド" onerror="handleImageError(this, 'player')">
+ </div>
+ <div class="welcome-tut-title">✨ はじめて遊びますか？ ✨</div>
+ <div class="welcome-tut-desc">
+ パーツをつなげて漢字を作るカードバトルです！<br>
+ 実際の画面を触りながら学べる<strong style="color:#38bdf8;">チュートリアル（約1分）</strong>で<br>
+ ルールと操作を試してみませんか？
+ </div>
+ <div class="welcome-tut-btns">
+ <button class="btn-welcome-yes" onclick="acceptWelcomeTutorial()">🎓 チュートリアルを始める</button>
+ <button class="btn-welcome-no" onclick="skipWelcomeTutorial()">あとで（ホームへ）</button>
+ </div>
+ </div>
+ </div>
 
  <!-- 特殊カード専用カットインオーバーレイ -->
  <div class="special-cutin-overlay hidden" id="special-cutin-overlay">
@@ -971,6 +1197,7 @@ position: absolute;
  <div class="action-area">
  <button class="btn-game-start" onclick="startGameFromHome()">GAME START</button>
  <div class="sub-menu">
+ <div class="icon-btn tutorial-btn-accent" onclick="startTutorialMode()"><span class="icon">🎓</span><span class="label">チュートリアル</span></div>
  <div class="icon-btn" onclick="openInfoModal('遊び方')"><span class="icon">❓</span><span class="label">遊び方</span></div>
  <div class="icon-btn" onclick="openInfoModal('図鑑')"><span class="icon">📖</span><span class="label">図鑑</span></div>
  <div class="icon-btn" onclick="openSettingsScreen()"><span class="icon">⚙️</span><span class="label">設定</span></div>
@@ -988,7 +1215,7 @@ position: absolute;
  </div>
  </div>
 
- <div class="cpu-container-group">
+ <div class="cpu-container-group" id="cpu-container-group">
  <div class="cpu-profile-box cpu1-theme" id="profile-cpu1">
  <div class="cpu-badge">
  <div class="avatar-container" id="avatar-box-cpu1">
@@ -1045,7 +1272,7 @@ position: absolute;
  </div>
 
  <div class="right-control-group">
- <div class="deck-neon-stack" onclick="drawFromDeckPlayer()">
+ <div class="deck-neon-stack" id="deck-stack-btn" onclick="drawFromDeckPlayer()">
  <div class="deck-card-visual">★</div>
  <div class="deck-label-text"><ruby>山札<rt>やまふだ</rt></ruby> <ruby>残<rt>のこ</rt></ruby>り<span id="deck-count-num">90</span>枚</div>
  </div>
@@ -1206,6 +1433,7 @@ position: absolute;
 
  <div class="how-to-footer">
  <button class="btn-settings-back" onclick="closeInfoModal()"><span>⬅</span> もどる</button>
+ <button class="btn-welcome-yes" style="padding: 5px 18px; font-size: 13px;" onclick="closeInfoModal(); startTutorialMode();">🎓 実際に練習してみる（チュートリアル）</button>
  </div>
  </div>
  </div>
@@ -1553,6 +1781,8 @@ function setupCharacterAvatars() {
  setSrc('img-howto-header-char', AVATAR_DATA.player);
  setSrc('img-howto-c1-char', AVATAR_DATA.player);
  setSrc('img-howto-c2-char', AVATAR_DATA.cpu1);
+ setSrc('img-tut-guide-char', AVATAR_DATA.player);
+ setSrc('img-welcome-tut-char', AVATAR_DATA.player);
 }
 
 /* 全65個の漢字データベース */
@@ -1681,6 +1911,22 @@ function submitInitialPlayerName(event) {
  document.getElementById('home-screen').classList.remove('hidden');
 
  gameBGM.play();
+
+ // 初回起動時の自動チュートリアル案内を表示
+ const hasSeenWelcome = localStorage.getItem('BUSHU_SEEN_WELCOME_TUT');
+ if (!hasSeenWelcome) {
+ localStorage.setItem('BUSHU_SEEN_WELCOME_TUT', '1');
+ document.getElementById('welcome-tut-modal').classList.remove('hidden');
+ }
+}
+
+function acceptWelcomeTutorial() {
+ document.getElementById('welcome-tut-modal').classList.add('hidden');
+ startTutorialMode();
+}
+
+function skipWelcomeTutorial() {
+ document.getElementById('welcome-tut-modal').classList.add('hidden');
 }
 
 const FOUR_COLORS = ['color-green', 'color-blue', 'color-red', 'color-yellow'];
@@ -1764,7 +2010,280 @@ let timeRemaining = gameTimeLimitSetting;
 let timerInterval = null;
 let isGameOver = true;
 
+/* =========================================================
+   実践型チュートリアル管理システム
+   ========================================================= */
+let isTutorialMode = false;
+let tutorialStepIndex = 0;
+
+const TUTORIAL_STEPS = [
+ {
+ badge: 'STEP 1 / 7',
+ title: 'パーツを合体させて漢字を作ろう！',
+ desc: 'このゲームは手札のパーツを<em>2枚以上</em>つなげて漢字を作り、場に出します。<br>まず光っている「<em>氵</em>」と「<em>青</em>」をタップして選び、「<em>カードを確定</em>」を押そう！',
+ actionType: 'PLAY_COMBO',
+ targetKanji: '清',
+ targetCardValues: ['氵', '青'],
+ showNextBtn: false
+ },
+ {
+ badge: 'STEP 2 / 7',
+ title: 'つながり①：場と「同じ色」なら出せる！',
+ desc: '完成した漢字は「部首の色（今は緑色）」になります。<br>場と同じ<em>緑色</em>の部首「<em>木</em>」と「<em>主</em>」を選んで、「<em>柱</em>」を作って出してみよう！',
+ actionType: 'PLAY_COMBO',
+ targetKanji: '柱',
+ targetCardValues: ['木', '主'],
+ showNextBtn: false
+ },
+ {
+ badge: 'STEP 3 / 7',
+ title: 'つながり②：色が違っても「同じパーツ」ならOK！',
+ desc: '次は色が違う（青色）カードですが、場の「柱（木＋主）」と<em>同じパーツ「主」</em>を持っています！<br>「<em>亻</em>」と「<em>主</em>」を選んで「<em>住</em>」を出してみよう！',
+ actionType: 'PLAY_COMBO',
+ targetKanji: '住',
+ targetCardValues: ['亻', '主'],
+ showNextBtn: false
+ },
+ {
+ badge: 'STEP 4 / 7',
+ title: '出せる組み合わせがない時は「山札」を引く！',
+ desc: '今の手札では漢字が作れません。そんな時は右上の<em>山札</em>をタップしてカードを1枚引こう！',
+ actionType: 'DRAW_DECK',
+ showNextBtn: false
+ },
+ {
+ badge: 'STEP 5 / 7',
+ title: '1枚だけで出せる「特殊カード」！',
+ desc: '虹色の特殊カードは合体なしで<em>1枚だけ</em>で場に出せます！<br>「<em>飛（スキップ）</em>」をタップして選び、「<em>カードを確定</em>」を押してみよう！',
+ actionType: 'PLAY_SPECIAL',
+ targetEffect: 'SKIP',
+ showNextBtn: false
+ },
+ {
+ badge: 'STEP 6 / 7',
+ title: '重要！手札が2枚以下になったら「BŪSHU!」宣言！',
+ desc: '手札が<em>2枚以下</em>になったら、右下の赤い「<em>BŪSHU!</em>」ボタンを必ず押そう！<br>（押し忘れると次の人に指摘されてペナルティ1枚になります！）',
+ actionType: 'DECLARE_BUSHU',
+ showNextBtn: false
+ },
+ {
+ badge: 'STEP 7 / 7',
+ title: '最後の仕上げ！手札を0枚にして勝利しよう！',
+ desc: 'いよいよラスト！残りの「<em>氵</em>」と「<em>中</em>」を組み合わせて「<em>沖</em>」を作り、手札を0枚にしてあがろう！',
+ actionType: 'PLAY_COMBO',
+ targetKanji: '沖',
+ targetCardValues: ['氵', '中'],
+ showNextBtn: false
+ }
+];
+
+function startTutorialMode() {
+ if (timerInterval) clearInterval(timerInterval);
+ if (cpuTimerId) clearTimeout(cpuTimerId);
+
+ isTutorialMode = true;
+ tutorialStepIndex = 0;
+ isGameOver = false;
+ isWildSelecting = false;
+ turn = 0;
+ direction = 1;
+ selectedIndices = [];
+ historyCompletedKanji = [];
+ bushuDeclared = [false, false, false, false];
+ pendingDrawCount = 0;
+ wildSpecifiedBushu = null;
+
+ // チュートリアル用の固定カラー割り当て（わかりやすい色分け）
+ BUSHU_COLOR_MAP = {
+ '氵': 'color-green',
+ '木': 'color-green',
+ '亻': 'color-blue',
+ '言': 'color-blue',
+ '扌': 'color-red',
+ '禾': 'color-red',
+ '宀': 'color-yellow',
+ '竹': 'color-yellow'
+ };
+
+ // 最初の場のカード：「湯」（氵＋昜、緑色）
+ topCard = { type: 'PART', value: '湯', bushu: '氵' };
+ activeParts = ['氵', '昜'];
+
+ // プレイヤーの初期手札（ステップ1〜3で順番に使えるパーツ）
+ players[0] = [
+ { type: 'PART', value: '氵', bushu: '氵' },
+ { type: 'PART', value: '青', bushu: '氵' },
+ { type: 'PART', value: '木', bushu: '木' },
+ { type: 'PART', value: '主', bushu: '木' },
+ { type: 'PART', value: '亻', bushu: '亻' },
+ { type: 'PART', value: '主', bushu: '亻' }
+ ];
+ players[1] = [{ type: 'PART', value: '木', bushu: '木' }, { type: 'PART', value: '公', bushu: '木' }, { type: 'PART', value: '言', bushu: '言' }, { type: 'PART', value: '寺', bushu: '言' }];
+ players[2] = [{ type: 'PART', value: '竹', bushu: '竹' }, { type: 'PART', value: '寺', bushu: '竹' }, { type: 'PART', value: '禾', bushu: '禾' }, { type: 'PART', value: '火', bushu: '禾' }];
+ players[3] = [{ type: 'PART', value: '宀', bushu: '宀' }, { type: 'PART', value: '女', bushu: '宀' }, { type: 'PART', value: '扌', bushu: '扌' }, { type: 'PART', value: '丁', bushu: '扌' }];
+
+ // ステップ4で山札から引かれるカード（先頭に「飛（スキップ）」を仕込む）
+ deck = [
+ { type: 'PART', value: '火', bushu: '禾' },
+ { type: 'PART', value: '口', bushu: '禾' },
+ { type: 'SPECIAL', value: '飛', effect: 'SKIP' }
+ ];
+
+ document.getElementById('home-screen').classList.add('hidden');
+ document.getElementById('result-modal').classList.add('hidden');
+ document.getElementById('info-modal').classList.add('hidden');
+ document.getElementById('zukan-modal').classList.add('hidden');
+ document.getElementById('settings-screen').classList.add('hidden');
+ document.getElementById('wild-modal').classList.add('hidden');
+ document.getElementById('cpu-container-group').style.visibility = 'hidden';
+
+ document.getElementById('tutorial-guide-panel').classList.remove('hidden');
+ document.getElementById('timer-value-num').innerText = '練習';
+
+ fitGameToScreen();
+ renderUI();
+ updateTurnDisplay();
+ updateTutorialGuideUI();
+ gameBGM.play();
+}
+
+function exitTutorialMode() {
+ isTutorialMode = false;
+ clearTutorialHighlights();
+ document.getElementById('tutorial-guide-panel').classList.add('hidden');
+ document.getElementById('cpu-container-group').style.visibility = 'visible';
+ returnToHome();
+}
+
+function clearTutorialHighlights() {
+ document.querySelectorAll('.tutorial-highlight').forEach(el => {
+ el.classList.remove('tutorial-highlight');
+ });
+}
+
+function updateTutorialGuideUI() {
+ if (!isTutorialMode) return;
+ const step = TUTORIAL_STEPS[tutorialStepIndex];
+ if (!step) return;
+
+ document.getElementById('tut-step-badge').innerText = step.badge;
+ document.getElementById('tut-step-title').innerText = step.title;
+ document.getElementById('tut-step-desc').innerHTML = step.desc;
+
+ const nextBtn = document.getElementById('btn-tut-next');
+ if (step.showNextBtn) {
+ nextBtn.classList.remove('hidden');
+ } else {
+ nextBtn.classList.add('hidden');
+ }
+
+ applyTutorialHighlights();
+}
+
+function applyTutorialHighlights() {
+ clearTutorialHighlights();
+ if (!isTutorialMode) return;
+ const step = TUTORIAL_STEPS[tutorialStepIndex];
+ if (!step) return;
+
+ const handEls = document.querySelectorAll('#hand-cards-fan .neon-card');
+ const submitBtn = document.getElementById('btn-submit');
+ const deckBtn = document.getElementById('deck-stack-btn');
+ const bushuBtn = document.getElementById('btn-bushu');
+
+ if (step.actionType === 'PLAY_COMBO') {
+ const needed = [...step.targetCardValues];
+ let selectedCount = 0;
+
+ players[0].forEach((card, idx) => {
+ const isSelected = selectedIndices.includes(idx);
+ if (isSelected) {
+ selectedCount++;
+ const pos = needed.indexOf(card.value);
+ if (pos > -1) needed.splice(pos, 1);
+ }
+ });
+
+ // まだ選ばれていない対象カードを光らせる
+ players[0].forEach((card, idx) => {
+ if (!selectedIndices.includes(idx)) {
+ const pos = needed.indexOf(card.value);
+ if (pos > -1 && handEls[idx]) {
+ handEls[idx].classList.add('tutorial-highlight');
+ needed.splice(pos, 1);
+ }
+ }
+ });
+
+ // 2枚揃ったら「カードを確定」ボタンを光らせる
+ if (selectedCount === step.targetCardValues.length && needed.length === 0) {
+ submitBtn.classList.add('tutorial-highlight');
+ }
+ } else if (step.actionType === 'DRAW_DECK') {
+ deckBtn.classList.add('tutorial-highlight');
+ } else if (step.actionType === 'PLAY_SPECIAL') {
+ const spIdx = players[0].findIndex(c => c.type === 'SPECIAL' && c.effect === step.targetEffect);
+ if (spIdx > -1) {
+ if (!selectedIndices.includes(spIdx)) {
+ if (handEls[spIdx]) handEls[spIdx].classList.add('tutorial-highlight');
+ } else {
+ submitBtn.classList.add('tutorial-highlight');
+ }
+ }
+ } else if (step.actionType === 'DECLARE_BUSHU') {
+ bushuBtn.classList.add('tutorial-highlight');
+ }
+}
+
+function advanceTutorialStep() {
+ tutorialStepIndex++;
+ selectedIndices = [];
+
+ if (tutorialStepIndex >= TUTORIAL_STEPS.length) {
+ // チュートリアル完了！
+ isTutorialMode = false;
+ clearTutorialHighlights();
+ document.getElementById('tutorial-guide-panel').classList.add('hidden');
+ document.getElementById('cpu-container-group').style.visibility = 'visible';
+ triggerSpecialCutin('🎉 チュートリアル完了！', '基本ルールはバッチリ！本番バトルに挑戦しよう！');
+ setTimeout(() => {
+ returnToHome();
+ }, 1800);
+ return;
+ }
+
+ // ステップ4（山札を引く）に移行するタイミングで、ステップ5〜7用のカードを仕込む
+ if (tutorialStepIndex === 3) {
+ players[0] = [
+ { type: 'PART', value: '氵', bushu: '氵' },
+ { type: 'PART', value: '中', bushu: '氵' }
+ ];
+ deck = [
+ { type: 'PART', value: '火', bushu: '禾' },
+ { type: 'SPECIAL', value: '飛', effect: 'SKIP' }
+ ];
+ }
+
+ renderUI();
+ updateTutorialGuideUI();
+}
+
+function showTutorialHintBanner(text) {
+ const banner = document.getElementById('penalty-error-banner');
+ const defaultText = '⚠️ 組み合わせが間違っています！ ペナルティとして1枚引きます！';
+ banner.innerText = `💡 ${text}`;
+ banner.classList.remove('hidden');
+ setTimeout(() => {
+ banner.classList.add('hidden');
+ banner.innerText = defaultText;
+ }, 2000);
+}
+
 function startGameFromHome() {
+ isTutorialMode = false;
+ clearTutorialHighlights();
+ document.getElementById('tutorial-guide-panel').classList.add('hidden');
+ document.getElementById('cpu-container-group').style.visibility = 'visible';
  document.getElementById('home-screen').classList.add('hidden');
  initGame();
  gameBGM.play();
@@ -1775,6 +2294,10 @@ function returnToHome() {
  if (cpuTimerId) clearTimeout(cpuTimerId);
  isGameOver = true;
  isWildSelecting = false;
+ isTutorialMode = false;
+ clearTutorialHighlights();
+ document.getElementById('tutorial-guide-panel').classList.add('hidden');
+ document.getElementById('cpu-container-group').style.visibility = 'visible';
  document.getElementById('result-modal').classList.add('hidden');
  document.getElementById('info-modal').classList.add('hidden');
  document.getElementById('zukan-modal').classList.add('hidden');
@@ -2007,14 +2530,14 @@ function updateActivePartsFromCard(card) {
 function startTimer() {
  updateTimerDisplay();
  timerInterval = setInterval(() => {
- if (isGameOver || isWildSelecting) return;
+ if (isGameOver || isWildSelecting || isTutorialMode) return;
  timeRemaining--; updateTimerDisplay();
  if (timeRemaining <= 0) { clearInterval(timerInterval); handleTimeUp(); }
  }, 1000);
 }
 
 function updateTimerDisplay() {
- document.getElementById('timer-value-num').innerText = timeRemaining;
+ document.getElementById('timer-value-num').innerText = isTutorialMode ? '練習' : timeRemaining;
 }
 
 function handleTimeUp() {
@@ -2121,12 +2644,28 @@ const selectedCards = selectedIndices.map(i => players[0][i]);
  btnBushu.className = players[0].length <= 2 ? 'btn-bushu-neon active-glow' : 'btn-bushu-neon';
  btnBushu.onclick = declareBushu;
  }
+
+ if (isTutorialMode) {
+ applyTutorialHighlights();
+ }
 }
 
 function toggleCardSelect(index) {
  if (turn !== 0 || isGameOver || isWildSelecting) return;
  const clickedCard = players[0][index];
  if (!clickedCard) return;
+
+ if (isTutorialMode) {
+ const step = TUTORIAL_STEPS[tutorialStepIndex];
+ if (step.actionType === 'DRAW_DECK') {
+ showTutorialHintBanner('今は右上の「山札」をタップしてカードを引いてみよう！');
+ return;
+ }
+ if (step.actionType === 'DECLARE_BUSHU') {
+ showTutorialHintBanner('今は右下の赤い「BŪSHU!」ボタンを押して宣言しよう！');
+ return;
+ }
+ }
 
  if (clickedCard.type === 'SPECIAL') {
  selectedIndices = selectedIndices.includes(index) ? [] : [index];
@@ -2197,6 +2736,40 @@ function triggerPenaltyWarning() {
 function submitSelectedCards() {
  if (turn !== 0 || isGameOver || isWildSelecting || selectedIndices.length === 0) return;
  const selectedCards = selectedIndices.map(i => players[0][i]);
+
+ // チュートリアルモード専用の判定（失敗してもペナルティなしで優しく案内）
+ if (isTutorialMode) {
+ const step = TUTORIAL_STEPS[tutorialStepIndex];
+ if (step.actionType === 'PLAY_COMBO') {
+ const values = selectedCards.map(c => c.value);
+ const matched = findMatchingKanji(values);
+ if (!matched || matched.kanji !== step.targetKanji) {
+ showTutorialHintBanner(`黄色く光っている「${step.targetCardValues.join('」と「')}」の2枚を選んで確定しよう！`);
+ return;
+ }
+ selectedIndices.sort((a,b) => b - a).forEach(i => players[0].splice(i, 1));
+ selectedIndices = [];
+ processPlayedCards(selectedCards, 0);
+ renderUI();
+ setTimeout(() => advanceTutorialStep(), 750);
+ return;
+ } else if (step.actionType === 'PLAY_SPECIAL') {
+ if (selectedCards.length !== 1 || selectedCards[0].type !== 'SPECIAL' || selectedCards[0].effect !== step.targetEffect) {
+ showTutorialHintBanner('虹色の「飛（スキップ）」カードを1枚だけ選んで確定しよう！');
+ return;
+ }
+ selectedIndices.sort((a,b) => b - a).forEach(i => players[0].splice(i, 1));
+ selectedIndices = [];
+ processPlayedCards(selectedCards, 0);
+ turn = 0; // スキップ演出後も自分の手番を維持
+ renderUI();
+ setTimeout(() => advanceTutorialStep(), 1300);
+ return;
+ } else {
+ showTutorialHintBanner('上のガイドの指示どおりに操作してみよう！');
+ return;
+ }
+ }
 
  if (selectedCards.length < 2 && selectedCards[0].type !== 'SPECIAL') {
  triggerSpecialCutin('⚠️ 1枚出し不可', '通常カードは2枚以上で合体させてください');
@@ -2293,6 +2866,20 @@ function triggerCpuPressBushuButton(cpuIdx) {
 
 function declareBushu() {
  if (isGameOver || isWildSelecting) return;
+
+ if (isTutorialMode) {
+ const step = TUTORIAL_STEPS[tutorialStepIndex];
+ if (step.actionType !== 'DECLARE_BUSHU') {
+ showTutorialHintBanner('「BŪSHU!」は手札が2枚以下になった時に宣言するよ！');
+ return;
+ }
+ bushuDeclared[0] = true;
+ triggerBigBushuEffect(0);
+ renderUI();
+ setTimeout(() => advanceTutorialStep(), 1100);
+ return;
+ }
+
  if (players[0].length <= 2 && !bushuDeclared[0]) {
  bushuDeclared[0] = true;
  triggerBigBushuEffect(0);
@@ -2306,7 +2893,7 @@ function processPlayedCards(cards, playerIdx) {
  
 if (sp.effect === 'SKIP') {
  triggerSpecialCutin('飛 SKIP!', '次のプレイヤーをスキップ！ ⤵️', 'SKIP');
- advanceTurn();
+ if (!isTutorialMode) advanceTurn();
  } else if (sp.effect === 'REVERSE') {
  triggerSpecialCutin('逆 REVERSE!', '順番が反対回り（逆回り）になった！ 🔄', 'REVERSE');
  direction *= -1;
@@ -2369,7 +2956,7 @@ function triggerDrawHitBanner(playerIdx, drawAmount, callback) {
 }
 
 function checkWinOrNextTurn() {
- if (isGameOver || isWildSelecting) return;
+ if (isGameOver || isWildSelecting || isTutorialMode) return;
  if (players[turn].length === 0) {
  isGameOver = true; 
 if (timerInterval) clearInterval(timerInterval);
@@ -2387,7 +2974,7 @@ if (timerInterval) clearInterval(timerInterval);
 
 function scheduleCpuTurn() {
  if (cpuTimerId) clearTimeout(cpuTimerId);
- if (isWildSelecting || isGameOver) return;
+ if (isWildSelecting || isGameOver || isTutorialMode) return;
  cpuTimerId = setTimeout(executeCpuTurn, cpuSpeedMs);
 }
 
@@ -2454,6 +3041,21 @@ function checkAndAutoProcessPlayerDraw() {
 
 function drawFromDeckPlayer() {
  if (turn !== 0 || isGameOver || isWildSelecting) return;
+
+ if (isTutorialMode) {
+ const step = TUTORIAL_STEPS[tutorialStepIndex];
+ if (step.actionType !== 'DRAW_DECK') {
+ showTutorialHintBanner('今は手札からカードを出してみよう！');
+ return;
+ }
+ if (deck.length > 0) {
+ players[0].push(deck.pop());
+ }
+ selectedIndices = [];
+ renderUI();
+ setTimeout(() => advanceTutorialStep(), 550);
+ return;
+ }
  
 if (pendingDrawCount > 0) {
  const hitAmount = pendingDrawCount;
@@ -2524,7 +3126,7 @@ function updateTurnDisplay() {
 }
 
 function executeCpuTurn() {
- if (isGameOver || isWildSelecting || turn === 0) return;
+ if (isGameOver || isWildSelecting || turn === 0 || isTutorialMode) return;
 
  const prevTurnIdx = (turn - direction + 4) % 4;
  if (players[prevTurnIdx].length <= 2 && !bushuDeclared[prevTurnIdx]) {
@@ -2544,7 +3146,7 @@ function executeCpuTurn() {
 }
 
 function continueCpuTurnExecution() {
- if (isGameOver || isWildSelecting || turn === 0) return;
+ if (isGameOver || isWildSelecting || turn === 0 || isTutorialMode) return;
  const cpuIdx = turn;
  const hand = players[cpuIdx];
 
